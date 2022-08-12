@@ -9,6 +9,7 @@ import { useState } from "react";
 import FlutterDashIcon from "@mui/icons-material/FlutterDash";
 import PetsIcon from "@mui/icons-material/Pets";
 import { green } from "@mui/material/colors";
+import FaceIcon from '@mui/icons-material/Face';
 
 const style = {
   position: "absolute",
@@ -24,7 +25,7 @@ const style = {
 };
 
 export default function BasicModal() {
-  const { handleOpen, handleClose, open, handleLoginPage, handleSignUp } =
+  const { handleOpen, handleClose, open, handleLoginPage, handleSignUp, errorSignup, errorLogin} =
     useAuthContext();
   const [login, senLogin] = useState(true);
   const [loginEmail, setLoginEmail] = useState("");
@@ -32,6 +33,7 @@ export default function BasicModal() {
   const [signUp, setSignUp] = useState("");
   const [signPass1, setSignPass1] = useState("");
   const [signPass2, setSignPass2] = useState("");
+  const [user, setUser] = useState("");
 
   const handleLogin = () => {
     senLogin(!login);
@@ -52,6 +54,10 @@ export default function BasicModal() {
     setSignPass2(e.target.value);
   };
 
+  const handleUser = (e) => {
+    setUser(e.target.value);
+  }
+
   return (
     <div>
       <Modal
@@ -61,6 +67,7 @@ export default function BasicModal() {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
+          <div className="errorHolder">
           <div className="d-flex justify-content-evenly">
             <Button
               color="success"
@@ -81,15 +88,18 @@ export default function BasicModal() {
               Sign up
             </Button>
           </div>
+          <div className="danger">{errorSignup && errorSignup }</div>
+          <div className="danger">{errorLogin && errorLogin }</div>
+          </div>
           <div className={!login ? "d-none" : "undefined"}>
             <div className="d-flex align-items-center">
-              <FlutterDashIcon className="me-3 mt-4" />
+              <FlutterDashIcon className="me-3 mt-2" />
               <TextField
                 color="success"
                 id="outlined-basic"
                 label="email"
                 variant="standard"
-                className="ms-2 w-75 mb-2 mt-3"
+                className="ms-2 w-75 mb-2"
                 type="email"
                 onChange={handleLoginEmail}
                 value={loginEmail}
@@ -130,14 +140,27 @@ export default function BasicModal() {
             </div>
           </div>
           <div className={login ? "d-none" : "undefined"}>
+          <div className="d-flex align-items-center">
+              <FaceIcon className="me-3 mt-2" />
+              <TextField
+                color="success"
+                id="outlined-basic"
+                label="user name"
+                variant="standard"
+                className="ms-2 w-75 mb-2"
+                type="email"
+                onChange={handleUser}
+                value={user}
+              />
+            </div>
             <div className="d-flex align-items-center">
-              <FlutterDashIcon className="me-3 mt-4" />
+              <FlutterDashIcon className="me-3 mt-2" />
               <TextField
                 color="success"
                 id="outlined-basic"
                 label="email"
                 variant="standard"
-                className="ms-2 w-75 mb-2 mt-3"
+                className="ms-2 w-75 mb-2"
                 type="email"
                 onChange={handleSignInput}
                 value={signUp}
@@ -174,7 +197,8 @@ export default function BasicModal() {
                 color="success"
                 variant="outlined"
                 onClick={() => {
-                  handleSignUp(signUp, signPass1, signPass2);
+                  handleSignUp(user, signUp, signPass1, signPass2);
+                  setUser("");
                   setSignPass1("");
                   setSignPass2("");
                   setSignUp("");

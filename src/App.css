@@ -7,6 +7,12 @@
   pointer-events: none;
 }
 
+.errorHolder{
+  height: 65px;
+  color: rgb(231, 29, 29);
+  text-align: center;
+}
+
 .searchBar{
   height: 80vh;
 }
