@@ -7,11 +7,11 @@ import { TextField } from "@mui/material";
 import Button from "@mui/material/Button";
 import { usePetContext } from "../Contexts/petContext";
 import Checkbox from '@mui/material/Checkbox';
-import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
-import Favorite from '@mui/icons-material/Favorite';
 import PetsIcon from '@mui/icons-material/Pets';
 import { green } from '@mui/material/colors';
 import { yellow } from '@mui/material/colors';
+import { useAuthContext } from "../Contexts/authContexts";
+import PetsList from "./PetsList";
 
 export default function Search() {
   const [minHeight, setMinHeight] = useState("");
@@ -22,9 +22,9 @@ export default function Search() {
   const [status, setStatus] = useState('')
   const [name, setName] = useState('')
   const [advanced, setAdvanced] = useState(false)
-  
+  const{currentUser} = useAuthContext()
 
-  const { handleSearchForm } = usePetContext();
+  const { handleSearchForm, pets } = usePetContext();
 
   const handleMinHeight = (e) => {
     setMinHeight(e.target.value);
@@ -48,14 +48,13 @@ export default function Search() {
     setName(e.target.value)
   }
 
-  // useEffect(()=>{
-  //   console.log(isNaN(minHeight))
-  // },[minHeight])
-
   return (
-    <div className=" d-flex justify-content-center align-items-center ">
-      <div className=" d-flex justify-content-center searchBar align-items-center flex-column">
-      <div className="align-self-end d-flex align-items-center">
+    <div className=" d-flex justify-content-center flex-column align-items-center">
+      <span className='mt-5 w-50 homeContainer mb-5'>{
+      `Greetings, ${currentUser.userName}!
+       Who does your heart choose?`}  </span>
+      <div className=" d-flex justify-content-start searchBar align-items-center flex-column">
+      <div className="align-self-end d-flex  align-items-center">
         <span className="advanced text-warning mt-2">Advanced search</span>
       <Checkbox icon={<PetsIcon 
       sx={{
@@ -73,7 +72,7 @@ export default function Search() {
           sx={{ minWidth: 120, margin: 0, width: 350 }}
         >
           <InputLabel id="demo-simple-select-standard-label">Type</InputLabel>
-          <Select
+          <Select 
             labelId="demo-simple-select-standard-label"
             id="demo-simple-select-standard"
               value={type}
@@ -84,8 +83,8 @@ export default function Search() {
               <em>None</em>
             </MenuItem>
             <MenuItem value={'Giraffe'}>Giraffe</MenuItem>
-            <MenuItem value={'Cockroach'}>Cockroach</MenuItem>
-            <MenuItem value={'Batterfly'}>Batterfly</MenuItem>
+            <MenuItem value={'Cockroach'} >Cockroach</MenuItem>
+            <MenuItem value={'Batterfly'} >Batterfly</MenuItem>
           </Select>
         </FormControl>
         <div className={advanced?"d-flex flex-column":'d-none'}>
@@ -104,11 +103,12 @@ export default function Search() {
             onChange={handleStatus}
             label="Status"
           >
-            <MenuItem value="">
+            <MenuItem value="" >
               <em>None</em>
             </MenuItem >
-            <MenuItem value={'Foster'}>Foster</MenuItem>
-            <MenuItem value={'Adopt'}>Adopt</MenuItem>
+            <MenuItem value={'Available'} >Available</MenuItem>
+            <MenuItem value={'Foster'} >Fostered</MenuItem>
+            <MenuItem value={'Adopt'} >Adopted</MenuItem>
             {/* <MenuItem value={3}>Thirty</MenuItem> */}
           </Select>
         </FormControl>
@@ -206,6 +206,7 @@ export default function Search() {
        <span> Search</span>
         </Button>
       </div>
+      <PetsList/>
     </div>
   );
 }

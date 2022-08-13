@@ -1,8 +1,9 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import React from "react";
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom'
 
-const baseUrl = 'http://localhost:8080'
+export const baseUrl = 'http://localhost:8080'
 
 const authConext = createContext();
 export function useAuthContext() {
@@ -10,12 +11,20 @@ export function useAuthContext() {
 }
 
 export default function AuthContexts({ children }) {
+  const navigate = useNavigate()
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const[errorSignup, setErrorSignUp] = useState('');
   const [currentUser, setCurrentUser] = useState('');
   const [errorLogin, setErrorLogin] = useState('');
+
+  useEffect(() => {
+    if(currentUser){
+      navigate('/search')
+      handleClose()
+    }
+  } , [currentUser]);
 
   const handleLoginPage =  async (login, password) => {
     const loginUser = {email: login, password: password}

@@ -2,9 +2,43 @@
   text-align: center;
 }
 
+@import url("https://fonts.googleapis.com/css2?family=DynaPuff&display=swap");
+
+@import url("https://fonts.googleapis.com/css2?family=Work+Sans&display=swap");
+
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
+}
+
+.petCard{
+  width: 500px;
+  border-radius: 10px;
+  box-shadow: 0px 10px 13px -7px #000000, 5px 5px 15px 5px rgba(0,0,0,0);
+  /* font-family: 'Work Sans', sans-serif; */
+}
+
+.petAvatar-danger{
+  border: 7px solid rgb(215, 58, 58);
+}
+.petAvatar-warning{
+  border: 7px solid rgb(238, 199, 60);
+}
+.petAvatar-success{
+  border: 7px solid rgb(15, 159, 27);
+}
+
+.aStatus{
+  font-family: 'DynaPuff', cursive;
+  font-size: 20px;
+}
+
+.homeContainer{
+  font-family: 'DynaPuff', cursive;
+  color: green;
+  font-size: 30px;
+  text-align: center;
 }
 
 .errorHolder{
@@ -13,9 +47,7 @@
   text-align: center;
 }
 
-.searchBar{
-  height: 80vh;
-}
+
 
 .advanced{
   font-size: small;
