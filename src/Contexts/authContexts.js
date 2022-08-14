@@ -16,13 +16,14 @@ export default function AuthContexts({ children }) {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const[errorSignup, setErrorSignUp] = useState('');
-  const [currentUser, setCurrentUser] = useState('');
+  const [currentUser, setCurrentUser] = useState(localStorage.getItem('currentUser')? JSON.parse(localStorage.getItem('currentUser')): '');
   const [errorLogin, setErrorLogin] = useState('');
 
   useEffect(() => {
     if(currentUser){
       navigate('/search')
       handleClose()
+      localStorage.setItem('currentUser', JSON.stringify(currentUser))
     }
   } , [currentUser]);
 
@@ -43,6 +44,22 @@ export default function AuthContexts({ children }) {
     setCurrentUser('');
   }
 
+  const handleUpdateProfile = async (userName, lastName, email, phoneNumber, bio) =>{
+    const updatedUser = {
+      userName: userName,
+      lastName: lastName,
+      email: email,
+      phoneNumber: phoneNumber,
+      bio: bio
+    }
+    try{
+      const res = await axios.put(`${baseUrl}/api/users/${currentUser.id}`, updatedUser);
+      setCurrentUser(res.data);
+    }catch(err){
+      console.log(err)
+    }
+  }
+
   const handleSignUp = async (user, signup, password1, password2) => {
     const newUser = {userName: user, email: signup, password1: password1, password2: password2}
 try{
@@ -59,7 +76,7 @@ try{
   };
   return (
     <authConext.Provider
-      value={{ handleOpen, handleClose, open, handleLoginPage, handleSignUp, errorSignup, currentUser, errorLogin, handleLogout}}
+      value={{ handleOpen, handleClose, open, handleLoginPage, handleSignUp, errorSignup, currentUser, errorLogin, handleLogout, handleUpdateProfile}}
     >
       {children}
     </authConext.Provider>

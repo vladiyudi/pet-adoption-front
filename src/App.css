@@ -6,60 +6,66 @@
 
 @import url("https://fonts.googleapis.com/css2?family=Work+Sans&display=swap");
 
-
 .App-logo {
   height: 40vmin;
   pointer-events: none;
 }
 
-.petCard{
+.petCard {
   width: 500px;
   border-radius: 10px;
-  box-shadow: 0px 10px 13px -7px #000000, 5px 5px 15px 5px rgba(0,0,0,0);
+  box-shadow: 0px 10px 13px -7px #000000, 5px 5px 15px 5px rgba(0, 0, 0, 0);
   /* font-family: 'Work Sans', sans-serif; */
 }
 
-.petAvatar-danger{
+.updateForm{
+  width: 450px;
+}
+
+.updateSmallForm{
+  width: 300px;
+ color:gr
+} 
+
+.petAvatar-danger {
   border: 7px solid rgb(215, 58, 58);
 }
-.petAvatar-warning{
+.petAvatar-warning {
   border: 7px solid rgb(238, 199, 60);
 }
-.petAvatar-success{
+.petAvatar-success {
   border: 7px solid rgb(15, 159, 27);
 }
 
-.aStatus{
-  font-family: 'DynaPuff', cursive;
+.aStatus {
+  font-family: "DynaPuff", cursive;
   font-size: 20px;
 }
 
-.homeContainer{
-  font-family: 'DynaPuff', cursive;
+.homeContainer {
+  font-family: "DynaPuff", cursive;
   color: green;
   font-size: 30px;
   text-align: center;
 }
 
-.errorHolder{
+.errorHolder {
   height: 65px;
   color: rgb(231, 29, 29);
   text-align: center;
 }
 
-
-
-.advanced{
+.advanced {
   font-size: small;
 }
 
-.settings{
+.settings {
   text-transform: none;
   color: green;
   padding-left: 5px;
 }
 
-.navBar{
+.navBar {
   height: 45px;
   border-radius: 6px;
   margin-top: 5px;

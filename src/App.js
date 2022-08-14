@@ -11,6 +11,8 @@ import Search from "./Components/Search";
 import HomePage from "./Routes/HomePage";
 import PetContext from "./Contexts/petContext";
 import ProfileSetings from "./Routes/ProfileSetings";
+import MyPets from "./Routes/MyPets";
+
 
 function App() {
   return (
@@ -23,8 +25,9 @@ function App() {
           <Routes>
             <Route path="/" element={<HomePage/>}></Route>
             <Route path="/search" element={<PrivateRoute><Search/></PrivateRoute>}></Route>
-            <Route path="/profile/:uid"><ProfileSetings/></Route>
-            <Route path="/mypets"></Route>
+            <Route path="/profile/:uid" element={ <PrivateRoute><ProfileSetings/></PrivateRoute>}>
+              </Route>
+            <Route path="/mypets" element={<PrivateRoute><MyPets/></PrivateRoute>}></Route>
             <Route path="/admin"></Route>
           </Routes>
           </PetContext>
