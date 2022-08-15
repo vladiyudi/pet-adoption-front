@@ -12,6 +12,7 @@ import HomePage from "./Routes/HomePage";
 import PetContext from "./Contexts/petContext";
 import ProfileSetings from "./Routes/ProfileSetings";
 import MyPets from "./Routes/MyPets";
+import PetModal from "./Components/PetModal";
 
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
         <AuthContexts>
           <PetContext>
           <NavBar />
+          <PetModal></PetModal>
           <LoginModal />
           <Routes>
             <Route path="/" element={<HomePage/>}></Route>

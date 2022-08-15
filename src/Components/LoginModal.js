@@ -25,7 +25,7 @@ const style = {
 };
 
 export default function BasicModal() {
-  const { handleOpen, handleClose, open, handleLoginPage, handleSignUp, errorSignup, errorLogin} =
+  const { handleClose, open, handleLoginPage, handleSignUp, errorSignup, errorLogin} =
     useAuthContext();
   const [login, senLogin] = useState(true);
   const [loginEmail, setLoginEmail] = useState("");

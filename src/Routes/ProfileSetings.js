@@ -14,9 +14,9 @@ export default function ProfileSetings() {
   const { currentUser, handleUpdateProfile } = useAuthContext();
   const [userName, setUserName] = useState(currentUser.userName);
   const [email, setEmail] = useState(currentUser.email);
-  const [lastName, setLastName] = useState(currentUser.lastName);
-  const [phone, setPhone] = useState(currentUser.phoneNumber);
-  const [bio, setBio] = useState(currentUser.bio);
+  const [lastName, setLastName] = useState(currentUser.lastName? currentUser.lastName: '');
+  const [phone, setPhone] = useState(currentUser.phoneNumber? currentUser.phoneNumber: '');
+  const [bio, setBio] = useState(currentUser.bio? currentUser.bio : '');
 
   const isMobile = useMediaQuery({ maxWidth: 767 })
 

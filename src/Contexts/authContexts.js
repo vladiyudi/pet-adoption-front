@@ -21,7 +21,7 @@ export default function AuthContexts({ children }) {
 
   useEffect(() => {
     if(currentUser){
-      navigate('/search')
+     
       handleClose()
       localStorage.setItem('currentUser', JSON.stringify(currentUser))
     }
@@ -32,6 +32,7 @@ export default function AuthContexts({ children }) {
     try{
       const res = await axios.post(`${baseUrl}/api/users/login`, loginUser);
       setCurrentUser(res.data);
+       navigate('/search')
     }catch(err){
       err.response.data.message ? setErrorLogin(err.response.data.message) : setErrorLogin(err.response.data)
       setTimeout(()=>{
@@ -53,7 +54,8 @@ export default function AuthContexts({ children }) {
       bio: bio
     }
     try{
-      const res = await axios.put(`${baseUrl}/api/users/${currentUser.id}`, updatedUser);
+      const res = await axios.put(`${baseUrl}/api/users/${currentUser._id}`, updatedUser);
+      
       setCurrentUser(res.data);
     }catch(err){
       console.log(err)
@@ -64,8 +66,8 @@ export default function AuthContexts({ children }) {
     const newUser = {userName: user, email: signup, password1: password1, password2: password2}
 try{
     const res = await axios.post(`${baseUrl}/api/users/signUp`, newUser)
-    console.log(res.data)  
     setCurrentUser(res.data)
+    navigate('/search')
   }
     catch(err){
       err.response.data.message ? setErrorSignUp(err.response.data.message) : setErrorSignUp(err.response.data)

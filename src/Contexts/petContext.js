@@ -10,6 +10,13 @@ export function usePetContext() {
 
 export default function PetContext({children}) {
   const [pets, setPets] = useState([]);
+  const [openPetModal, setOpenPetModal] = useState(false);
+  const [pet, setPet] = useState('');
+
+  const handleOpenPetModal = (pet) => {setOpenPetModal(true);
+  setPet(pet)}
+  const handleClosePetModal = () => setOpenPetModal(false);
+
   const getAllPets = async () => {
     try{
     const allPets = await axios.get(`${baseUrl}/api/pets`);
@@ -39,7 +46,7 @@ export default function PetContext({children}) {
 
   return (
     <petContext.Provider 
-    value={{handleSearchForm, pets}}>
+    value={{handleSearchForm, pets, handleClosePetModal, handleOpenPetModal, openPetModal, pet }}>
    
     {children}
     </petContext.Provider>
