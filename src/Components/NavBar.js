@@ -9,19 +9,20 @@ import { NavLink } from "react-router-dom";
 import SearchIcon from "@mui/icons-material/Search";
 import { Sling as Hamburger } from "hamburger-react";
 import { useMediaQuery } from "react-responsive";
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 
 export default function NavBar() {
-  const isMobile = useMediaQuery({ maxWidth: 767 });
+  const isMobile = useMediaQuery({ maxWidth: 850 });
   const { handleOpen, currentUser, handleLogout } = useAuthContext();
   return (
     <div className="d-flex justify-content-center">
       <div className="w-75  navBar d-flex justify-content-end align-items-center">
         <div className={currentUser ? "w-100" : "d-none"}>
           <span className={!isMobile? "d-none":'success'}>
-            <Hamburger color="#008000"></Hamburger>
+            <Hamburger color="#008000" className=""></Hamburger>
           </span>
           <div
-            className={!isMobile ? "d-flex justify-content-between" : "d-none"}
+            className={!isMobile ? "d-flex justify-content-between ms-2" : "d-none"}
           >
             <div>
               <NavLink
@@ -30,13 +31,13 @@ export default function NavBar() {
                   isActive ? "text-success" : "text-secondary"
                 }
               >
-                <Button className="mb-1 ms-4" variant="standard">
+                <Button className="mb-1 ms-1" variant="standard">
                   <SearchIcon
                     sx={{
                       color: green[800],
                     }}
                   />
-                  <span className="mt-1 ms-2">search</span>
+                  <span className="mt-1">search</span>
                 </Button>
               </NavLink>
               <NavLink
@@ -48,7 +49,7 @@ export default function NavBar() {
                 <Button
                   color={"success"}
                   variant="standard"
-                  className={currentUser ? "me-2 ms-1 h-75" : "d-none"}
+                  className={currentUser ? "me-1 ms-1 h-75" : "d-none"}
                 >
                   <FavoriteIcon
                     className="mb-1 me-2"
@@ -60,6 +61,7 @@ export default function NavBar() {
                 </Button>
               </NavLink>
             </div>
+                    <div>
             <NavLink
               to={`/profile/${currentUser.userName}`}
               className={({ isActive }) =>
@@ -72,9 +74,30 @@ export default function NavBar() {
                     color: green[800],
                   }}
                 />
-                <span className="mt-1 ms-2">account</span>
+                <span className="mt-1 ms-1">account</span>
               </Button>
             </NavLink>
+            <NavLink
+                to={`/admin/${currentUser.userName}`}
+                className={({ isActive }) =>
+                  isActive ? "text-success" : "text-secondary"
+                }
+              >
+                <Button
+                  color={"success"}
+                  variant="standard"
+                  className={currentUser ? "me-1 ms-1 h-75" : "d-none"}
+                >
+                  <AdminPanelSettingsIcon
+                    className="mb-1 me-1"
+                    sx={{
+                      color: green[800],
+                    }}
+                  />
+                  <span>Admin</span>
+                </Button>
+              </NavLink>
+              </div>
           </div>
         </div>
         <Button

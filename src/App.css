@@ -11,6 +11,26 @@
   pointer-events: none;
 }
 
+.textField{
+  color: green;
+}
+
+.adminItem:hover{
+  background-color: rgb(240, 228, 118);
+  cursor: pointer;
+}
+
+.tableItem{
+ padding: 5px 0;
+  width: 25vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  word-wrap: break-word;
+  flex-wrap: wrap;
+  text-decoration: none;
+}
+
 .petCard {
   width: 500px;
   border-radius: 10px;

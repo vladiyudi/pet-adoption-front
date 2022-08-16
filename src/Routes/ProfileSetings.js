@@ -11,7 +11,7 @@ import PetsIcon from "@mui/icons-material/Pets";
 import { useMediaQuery } from 'react-responsive'
 
 export default function ProfileSetings() {
-  const { currentUser, handleUpdateProfile } = useAuthContext();
+  const { currentUser, handleUpdateProfile, updateError } = useAuthContext();
   const [userName, setUserName] = useState(currentUser.userName);
   const [email, setEmail] = useState(currentUser.email);
   const [lastName, setLastName] = useState(currentUser.lastName? currentUser.lastName: '');
@@ -52,7 +52,7 @@ export default function ProfileSetings() {
   return (
     <div className="d-flex justify-content-center mt-5">
       <div className={!isMobile?" d-flex flex-column updateForm": 'd-flex flex-column updateSmallForm'}>
-        <div>
+        <div className="">
           <StyledBadge
             overlap="circular"
             anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
@@ -73,6 +73,9 @@ export default function ProfileSetings() {
             value={userName}
             color="success"
             onChange={(e) => setUserName(e.target.value)}
+            InputProps={{
+              style: { color: green[900] },
+            }}
           />
           <TextField
             id="standard-basic"
@@ -81,6 +84,9 @@ export default function ProfileSetings() {
             value={lastName}
             color="success"
             onChange={(e) => setLastName(e.target.value)}
+            InputProps={{
+              style: { color: green[900] },
+            }}
           />
           <TextField
             id="standard-basic"
@@ -89,6 +95,9 @@ export default function ProfileSetings() {
             value={email}
             color="success"
             onChange={(e) => setEmail(e.target.value)}
+            InputProps={{
+              style: { color: green[900] },
+            }}
           />
           <TextField
             id="standard-basic"
@@ -97,6 +106,9 @@ export default function ProfileSetings() {
             value={phone}
             color="success"
             onChange={(e) => setPhone(e.target.value)}
+            InputProps={{
+              style: { color: green[900] },
+            }}
           />
           <TextField
             multiline
@@ -107,6 +119,9 @@ export default function ProfileSetings() {
             value={bio}
             color="success"
             onChange={(e) => setBio(e.target.value)}
+            InputProps={{
+              style: { color: green[900] },
+            }}
           />
           <Button
             className="mt-4 align-self-center"
@@ -124,6 +139,7 @@ export default function ProfileSetings() {
             />
             <span>Update profile</span>
           </Button>
+          <span className="text-danger mt-4 align-self-center">{updateError}</span>
         </div>
       </div>
     </div>

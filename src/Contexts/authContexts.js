@@ -16,17 +16,37 @@ export default function AuthContexts({ children }) {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const[errorSignup, setErrorSignUp] = useState('');
-  const [currentUser, setCurrentUser] = useState(localStorage.getItem('currentUser')? JSON.parse(localStorage.getItem('currentUser')): '');
+  const [currentUser, setCurrentUser] = useState(localStorage.getItem('currentUser')? JSON.parse(localStorage.getItem('currentUser')): {});
   const [errorLogin, setErrorLogin] = useState('');
+  const [updateError, setUpdateError] = useState('');
+  const [allUsers, setAllUsers] = useState([]);
+  const [editedUser, setEditedUser] = useState({})
 
   useEffect(() => {
     if(currentUser){
-     
       handleClose()
       localStorage.setItem('currentUser', JSON.stringify(currentUser))
     }
   } , [currentUser]);
 
+  useEffect(() => {
+    getAllUsers()
+  },[])
+
+  const getAllUsers = async () => {
+    try {
+      const res = await axios.get(`${baseUrl}/api/users/all`);
+      setAllUsers(res.data)
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const openPrivatePage=(user)=>{
+    setEditedUser(user)
+    navigate(`/admin/${currentUser.userName}/${user.userName}`)
+  }
+   
   const handleLoginPage =  async (login, password) => {
     const loginUser = {email: login, password: password}
     try{
@@ -55,10 +75,12 @@ export default function AuthContexts({ children }) {
     }
     try{
       const res = await axios.put(`${baseUrl}/api/users/${currentUser._id}`, updatedUser);
-      
       setCurrentUser(res.data);
     }catch(err){
-      console.log(err)
+      err.response.data.message ? setUpdateError(err.response.data.message) : setUpdateError(err.response.data)
+      setTimeout(()=>{
+        setUpdateError('')
+      }, 3000)
     }
   }
 
@@ -78,7 +100,7 @@ try{
   };
   return (
     <authConext.Provider
-      value={{ handleOpen, handleClose, open, handleLoginPage, handleSignUp, errorSignup, currentUser, errorLogin, handleLogout, handleUpdateProfile}}
+      value={{openPrivatePage, handleOpen, handleClose, open, handleLoginPage, handleSignUp, errorSignup, currentUser, errorLogin, handleLogout, handleUpdateProfile, updateError, allUsers, editedUser }}
     >
       {children}
     </authConext.Provider>

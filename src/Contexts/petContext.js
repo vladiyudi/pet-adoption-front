@@ -26,6 +26,18 @@ export default function PetContext({children}) {
     }
   }
 
+  const handleAddNewPet = async (petName, type, breed, weight, height, color, hypoallergenic, bio, dietary) => {
+
+    try {
+    const res = await axios.post(`${baseUrl}/api/pets/add`, {petName, type, breed, weight, height, color, hypoallergenic, bio, dietary:[dietary]});
+    console.log(res.data);
+  }
+    catch(err){
+      console.log(err);
+    }
+
+  }
+
   useEffect(() => {
     getAllPets()
   } , [])
@@ -46,7 +58,7 @@ export default function PetContext({children}) {
 
   return (
     <petContext.Provider 
-    value={{handleSearchForm, pets, handleClosePetModal, handleOpenPetModal, openPetModal, pet }}>
+    value={{handleSearchForm, pets, handleClosePetModal, handleOpenPetModal, openPetModal, pet, handleAddNewPet}}>
    
     {children}
     </petContext.Provider>
