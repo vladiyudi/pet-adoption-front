@@ -79,12 +79,11 @@ export default function Search() {
               onChange={handleType}
             label="Type"
           >
-            <MenuItem value="">
-              <em>None</em>
-            </MenuItem>
-            <MenuItem value={'Giraffe'}>Giraffe</MenuItem>
-            <MenuItem value={'Cockroach'} >Cockroach</MenuItem>
-            <MenuItem value={'Batterfly'} >Batterfly</MenuItem>
+            <MenuItem value="" >
+              All
+            </MenuItem >
+            <MenuItem value={'Dog'} >Dog</MenuItem>
+            <MenuItem value={'Cat'} >Cat</MenuItem>
           </Select>
         </FormControl>
         <div className={advanced?"d-flex flex-column":'d-none'}>
@@ -104,12 +103,11 @@ export default function Search() {
             label="Status"
           >
             <MenuItem value="" >
-              <em>None</em>
+              All
             </MenuItem >
             <MenuItem value={'Available'} >Available</MenuItem>
             <MenuItem value={'Foster'} >Fostered</MenuItem>
             <MenuItem value={'Adopt'} >Adopted</MenuItem>
-            {/* <MenuItem value={3}>Thirty</MenuItem> */}
           </Select>
         </FormControl>
         <TextField
@@ -132,7 +130,6 @@ export default function Search() {
                 : "only between 1 and 10"
             }
             type="number"
-            // InputLabelProps={{}}
             InputProps={{ inputProps: { min: 0, max: 10 } }}
             variant="standard"
             className="me-3"
@@ -148,7 +145,6 @@ export default function Search() {
                 : "only between 1 and 100"
             }
             type="number"
-            // InputLabelProps={{}}
             variant="standard"
             InputProps={{ inputProps: { min: 0, max: 100 } }}
             onChange={handleMaxnHeight}
@@ -165,7 +161,6 @@ export default function Search() {
                 : "only between 1 and 10"
             }
             type="number"
-            // InputLabelProps={{}}
             variant="standard"
             className="me-3"
             onChange={handleMinWeight}
@@ -181,7 +176,6 @@ export default function Search() {
                 : "only between 1 and 100"
             }
             type="number"
-            // InputLabelProps={{}}
             variant="standard"
             onChange={handleMaxWeight}
             InputProps={{ inputProps: { min: 0, max: 100 } }}
@@ -190,13 +184,13 @@ export default function Search() {
         </div>
         <Button className="mt-4" color="success" variant="outlined" 
         onClick={()=>{handleSearchForm(minHeight, maxHeight, minWeight, maxWeight, type, status, name)
-        setMaxHeight('')
-        setMaxWeight('')
-        setMinHeight('')
-        setMinWeight('')
-        setStatus('')
-        setType('')
-        setName('')
+        // setMaxHeight('')
+        // setMaxWeight('')
+        // setMinHeight('')
+        // setMinWeight('')
+        // setStatus('')
+        // setType('')
+        // setName('')
         }}>
           <PetsIcon className="mb-1 me-2"
       sx={{

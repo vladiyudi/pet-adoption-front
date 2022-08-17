@@ -14,8 +14,8 @@ export default function PetCard({ pet, modal }) {
   const { handleOpenPetModal } = usePetContext();
 
   let diet = "";
-  pet.dietery?.forEach((element, i) => {
-    if (i === pet.dietery.length - 1) {
+  pet.dietary?.forEach((element, i) => {
+    if (i === pet.dietary.length - 1) {
       diet += element;
     } else {
       diet += element + "," + " ";
@@ -43,7 +43,7 @@ export default function PetCard({ pet, modal }) {
           <Avatar
             className={`mt-3 ms-3 petAvatar-${aStatus}`}
             alt="Remy Sharp"
-            src="https://media-cldnry.s-nbcnews.com/image/upload/rockcms/2022-08/220805-border-collie-play-mn-1100-82d2f1.jpg"
+            src={pet.picture}
             sx={{ width: 120, height: 120 }}
           />
         </div>
@@ -52,7 +52,7 @@ export default function PetCard({ pet, modal }) {
             <div className="petName w-100">
               <div className="d-flex justify-content-between">
                 <div className="">
-                  <span className="text-secondary">name:</span>
+                  <span className="text-secondary">name: </span>
                   <span className="text-success">
                     <b>{pet.name}</b>
                   </span>
@@ -66,7 +66,7 @@ export default function PetCard({ pet, modal }) {
               <div className="d-flex align-items-center justify-content-between" 
               >
             <div>
-                <span className="text-secondary">type:</span>
+                <span className="text-secondary">type: </span>
                 <span className="text-success">
                   <b>{pet.type}</b>
                 </span>
@@ -81,7 +81,7 @@ export default function PetCard({ pet, modal }) {
                 </div>
               </div>
               <div className="mt-1 mb-2">
-                <span className="text-secondary">breed:</span>
+                <span className="text-secondary">breed: </span>
                 <span className="text-success">
                   <b>{pet.breed}</b>
                 </span>
@@ -110,9 +110,9 @@ export default function PetCard({ pet, modal }) {
               </span>
             </div>
             <div className="ms-4">
-              <span className="text-secondary">hypoallergnic: </span>
+              <span className="text-secondary">hypoallergenic: </span>
               <span className="text-success">
-                <b>{`${pet.hypoallergnic}`}</b>
+                <b>{`${pet.hypoallergenic}`}</b>
               </span>
             </div>
           </div>

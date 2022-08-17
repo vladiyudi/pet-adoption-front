@@ -27,22 +27,21 @@ export default function PetContext({children}) {
   }
 
   const handleAddNewPet = async (petName, type, breed, weight, height, color, hypoallergenic, bio, dietary) => {
-
     try {
-    const res = await axios.post(`${baseUrl}/api/pets/add`, {petName, type, breed, weight, height, color, hypoallergenic, bio, dietary:[dietary]});
-    console.log(res.data);
+      const diet =dietary.split(',').map(diet =>' '+ diet.trim());
+    const res = await axios.post(`${baseUrl}/api/pets/add`, {name:petName, type, breed, weight, height, color, hypoallergenic, bio, dietary:[diet]});
+    getAllPets()
   }
     catch(err){
       console.log(err);
     }
-
   }
 
   useEffect(() => {
     getAllPets()
   } , [])
 
-    const handleSearchForm = (minHeight, maxHeight, minWeight, maxWeight, type, status, name)=>{
+    const handleSearchForm = async (minHeight, maxHeight, minWeight, maxWeight, type, status, name)=>{
       const searchInput = {
         name: name,
         type: type,
@@ -52,7 +51,8 @@ export default function PetContext({children}) {
         minWeight: minWeight,
         maxWeight: maxWeight
       }
-      console.log(searchInput)
+      const searchResults = await axios.post(`${baseUrl}/api/pets/search`, searchInput);
+      setPets(searchResults.data);
     }
 
 

@@ -5,7 +5,7 @@ import { usePetContext } from '../Contexts/petContext'
 
 export default function MyPets() {
 
-  const {pets} = usePetContext();
+  // const {pets} = usePetContext();
 
   useEffect(() => {},[])
 
