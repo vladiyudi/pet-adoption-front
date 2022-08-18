@@ -4,7 +4,6 @@ import { NavLink } from 'react-router-dom';
 import { useAuthContext } from '../Contexts/authContexts';
 
 
-
 export default function AdminListItem({user}) {
  const {currentUser, openPrivatePage} = useAuthContext()
   return (
@@ -25,25 +24,4 @@ export default function AdminListItem({user}) {
     </div>
   
   )
-
- 
-
-{/* <table class="table table-bordered">
-  <tbody>
-    <tr>
-    <th scope="row">1</th>
-      <td>{user.admin}</td>
-      <td>{user.userName}</td>
-      <td>{user?.lastName}</td>
-      <td>{user.email}</td>
-      <td>{user?.phoneNumber}</td>
-      <td>{user?.fosteredPets}</td>
-      <td>{user?.adoptedPets}</td>
-    </tr>
-  </tbody>
-</table> */}
-
-
-      
-  
 }

@@ -4,14 +4,18 @@ import { usePetContext } from "../Contexts/petContext";
 import PetsIcon from "@mui/icons-material/Pets";
 import { green } from "@mui/material/colors";
 import Button from "@mui/material/Button";
-import Checkbox from '@mui/material/Checkbox';
-import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
-import Favorite from '@mui/icons-material/Favorite';
+import Checkbox from "@mui/material/Checkbox";
+import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
+import Favorite from "@mui/icons-material/Favorite";
+import { useAuthContext } from "../Contexts/authContexts";
+import { useState } from "react";
 
-const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
+const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
 export default function PetCard({ pet, modal }) {
-  const { handleOpenPetModal } = usePetContext();
+  const { handleOpenPetModal, handleUpdatePetToAdopted, handleClosePetModal } = usePetContext();
+  const { handleAddtoFavorites, handleAddToAdopted, handleRemoveFromFavorites, returnPet } = useAuthContext();
+  const { currentUser } = useAuthContext();
 
   let diet = "";
   pet.dietary?.forEach((element, i) => {
@@ -63,21 +67,33 @@ export default function PetCard({ pet, modal }) {
                   </span>
                 </div>
               </div>
-              <div className="d-flex align-items-center justify-content-between" 
-              >
-            <div>
-                <span className="text-secondary">type: </span>
-                <span className="text-success">
-                  <b>{pet.type}</b>
-                </span>
+              <div className="d-flex align-items-center justify-content-between">
+                <div>
+                  <span className="text-secondary">type: </span>
+                  <span className="text-success">
+                    <b>{pet.type}</b>
+                  </span>
                 </div>
-                <div className={"me-3"} onClick={(e)=>{  e.stopPropagation()}}>
-                <span className="text-success">Save</span>
-                <Checkbox {...label} icon={<FavoriteBorder />} checkedIcon={<Favorite 
-                 sx={{
-                  color: green[800],
-                }}
-                />} />
+                <div
+                  className={"me-3"}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    !currentUser?.interested?.[pet._id] ? handleAddtoFavorites(pet): handleRemoveFromFavorites(pet);
+                  }}
+                >
+                  <span className="text-success">Save</span>
+                  <Checkbox
+                    checked={currentUser?.interested?.[pet._id] ?true:false}
+                    {...label}
+                    icon={<FavoriteBorder />}
+                    checkedIcon={
+                      <Favorite
+                        sx={{
+                          color: green[800],
+                        }}
+                      />
+                    }
+                  />
                 </div>
               </div>
               <div className="mt-1 mb-2">
@@ -133,48 +149,36 @@ export default function PetCard({ pet, modal }) {
           </span>
         </div>
       </div>
-      <div className={modal?" d-flex justify-content-end pe-2":'d-none'}>
-      <Button
-                color="error"
-                variant="contained"
-               className={'me-2'}
-              >
-                <PetsIcon
-                  className={"mb-1 me-2"}
-                  sx={{
-                
-                  }}
-                />
-                <span>Return</span>
-              </Button>
+      <div 
+      onClick={handleClosePetModal}
+      className={modal ? " d-flex justify-content-end pe-2" : "d-none"}>
+        <Button color="error" variant="contained" className={currentUser?.adoptedPets?.[pet._id] || currentUser?.fosteredPets?.[pet._id] ? "me-2": 'd-none' }>
+          <PetsIcon className={"mb-1 me-2"} sx={{}} />
+          <span>Return</span>
+        </Button>
 
-      <Button
-                color="warning"
-                variant="contained"
-               className={modal ?'me-2' : "d-none"}
-              >
-                <PetsIcon
-                  className={"mb-1 me-2"}
-                  sx={{
-                  
-                  }}
-                />
-                <span>Foster</span>
-              </Button>
-              <Button
-                color="success"
-                variant="contained"
-               className={modal ?'me-2' : "d-none"}
-              >
-                <PetsIcon
-                  className={"mb-1 me-2"}
-                  sx={{
-                   
-                  }}
-                />
-                <span>Adopt</span>
-              </Button>
-              </div>
+        <Button
+          color="warning"
+          variant="contained"
+          className={modal ? "me-2" : "d-none"}
+        >
+          <PetsIcon className={"mb-1 me-2"} sx={{}} />
+          <span>Foster</span>
+        </Button>
+        <Button
+          onClick={()=>{
+           handleClosePetModal()
+            handleAddToAdopted(pet)
+            handleUpdatePetToAdopted(pet._id, currentUser._id)
+          }}
+          color="success"
+          variant="contained"
+          className={modal ? "me-2" : "d-none"}
+        >
+          <PetsIcon className={"mb-1 me-2"} sx={{}} />
+          <span>Adopt</span>
+        </Button>
+      </div>
     </div>
   );
 }

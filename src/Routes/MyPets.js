@@ -1,18 +1,65 @@
 import React, { useEffect } from 'react'
 import PetCard from '../Components/PetCard'
-import PetsList from '../Components/PetsList'
 import { usePetContext } from '../Contexts/petContext'
+import { useAuthContext } from '../Contexts/authContexts'
+import { useState } from 'react'
+import { Button } from '@mui/material'
+import {PetsIcon} from '@mui/icons-material'
+
 
 export default function MyPets() {
 
-  // const {pets} = usePetContext();
+  const [interested, setInerested] = useState(true)
+  const [adopted, setAdopted] = useState(false)
+  const [fostered, setFostered] = useState(false)
 
-  useEffect(() => {},[])
+  const {pets} = usePetContext();
+  const {currentUser} = useAuthContext();
+
+  const favorite = pets.filter(pet=>{
+    return currentUser.interested?.[pet._id]
+  })
+
+  const adoptedList = pets.filter(pet=>{
+    return currentUser.adoptedPets?.[pet._id]
+  })
 
   return (
-    <div className='mt-5 d-flex justify-content-center'>
-      <div className={<PetsList />?'d-none':'undefined'}>You currently do not own or foster any pets.</div>
-      <PetsList />
+
+<div className='d-flex justify-content-center mt-3 flex-column align-items-center'>
+
+
+<div>
+<Button className='mb-2' color={'success'} 
+onClick={()=>{
+  setAdopted(false)
+  setFostered(false)
+  setInerested(true)
+}}
+>Interested</Button>
+<Button className='mb-2' color={'success'}
+onClick={()=>{
+  setAdopted(true)
+  setFostered(false)
+  setInerested(false)
+}}
+>Adopted</Button>
+<Button 
+className='mb-2' color={'success'}
+onClick={()=>{
+  setAdopted(false)
+  setFostered(true)
+  setInerested(false)
+}}
+>Fostered</Button>
+</div>
+<div className={interested?'w-75 d-flex flex-wrap justify-content-center mt-4':'d-none'}>
+{favorite.map(pet => <PetCard key={pet._id} pet={pet}/>)}
+</div>
+<div className={adopted?'w-75 d-flex flex-wrap justify-content-center mt-4':'d-none'}>
+ 
+{adoptedList.map(pet => <PetCard key={pet._id} pet={pet}/>)}
+</div>
     </div>
   )
 }

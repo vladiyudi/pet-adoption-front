@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import React from "react";
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom'
+import { usePetContext } from "./petContext";
 
 export const baseUrl = 'http://localhost:8080'
 
@@ -21,17 +22,17 @@ export default function AuthContexts({ children }) {
   const [updateError, setUpdateError] = useState('');
   const [allUsers, setAllUsers] = useState([]);
   const [editedUser, setEditedUser] = useState({})
+  // const {updatePetStatus} = usePetContext();
+  // console.log(updatePetStatus)
 
   useEffect(() => {
     if(currentUser){
       handleClose()
       localStorage.setItem('currentUser', JSON.stringify(currentUser))
     }
+    getAllUsers()
   } , [currentUser]);
 
-  useEffect(() => {
-    getAllUsers()
-  },[])
 
   const getAllUsers = async () => {
     try {
@@ -98,9 +99,55 @@ try{
       }, 3000)
     }
   };
+
+  const handleAddtoFavorites = async (pet) =>{
+    const favoritePet = {petId: pet._id}
+    try{
+      const res = await axios.post(`${baseUrl}/api/users/${currentUser._id}/favorites`, favoritePet)
+
+      console.log("add",res.data)
+
+      setCurrentUser(res.data)
+    }catch(err){
+      console.log(err)
+    }
+  }
+
+  const handleRemoveFromFavorites = async (pet) => {
+    try{
+    const res = await axios.delete(`${baseUrl}/api/users/${currentUser._id}/favorites/${pet._id}`)
+
+    console.log("delete",res.data)
+
+    setCurrentUser(res.data)
+  }catch(err){
+      console.log(err)
+    }
+  }
+
+  const handleAddToAdopted = async (pet) =>{
+    const adoptedPet = {petId: pet._id}
+    try{
+      const res = await axios.post(`${baseUrl}/api/users/${currentUser._id}/adopted`, adoptedPet)
+      setCurrentUser(res.data)
+
+    }catch(err){
+      console.log(err)
+    }
+  }
+
+  const returnPet = async (userId, petId) =>{
+    try{
+      const res = await axios.put(`${baseUrl}/api/users/${userId}/adopted/${petId}`)
+      setCurrentUser(res.data)
+    }catch(err){
+      console.log(err)
+    }
+  }
+
   return (
     <authConext.Provider
-      value={{openPrivatePage, handleOpen, handleClose, open, handleLoginPage, handleSignUp, errorSignup, currentUser, errorLogin, handleLogout, handleUpdateProfile, updateError, allUsers, editedUser }}
+      value={{openPrivatePage, handleOpen, handleClose, open, handleLoginPage, handleSignUp, errorSignup, currentUser, errorLogin, handleLogout, handleUpdateProfile, updateError, allUsers, editedUser, handleAddtoFavorites, handleAddToAdopted, handleRemoveFromFavorites, returnPet}}
     >
       {children}
     </authConext.Provider>
