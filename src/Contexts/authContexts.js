@@ -104,7 +104,6 @@ try{
     const favoritePet = {petId: pet._id}
     try{
       const res = await axios.post(`${baseUrl}/api/users/${currentUser._id}/favorites`, favoritePet)
-      // console.log("add",res.data)
       setCurrentUser(res.data)
     }catch(err){
       console.log(err)
@@ -114,9 +113,6 @@ try{
   const handleRemoveFromFavorites = async (pet) => {
     try{
     const res = await axios.delete(`${baseUrl}/api/users/${currentUser._id}/favorites/${pet._id}`)
-
-    console.log("delete",res.data)
-
     setCurrentUser(res.data)
   }catch(err){
       console.log(err)

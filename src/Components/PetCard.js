@@ -47,11 +47,6 @@ export default function PetCard({ pet, modal }) {
     aStatus = "success";
   }
 
-  // let show = ''
-  // if (currentUser.adoptedPets.includes(pet._id)) {
-  //   console.log('adopted')
-  // }
-
   return (
     <div
       className="border petCard me-2 mb-2 pb-4 pt-1 pe-1"
@@ -95,14 +90,13 @@ export default function PetCard({ pet, modal }) {
                   className={"me-3"}
                   onClick={(e) => {
                     e.stopPropagation();
-                    !currentUser?.interested?.[pet._id]
-                      ? handleAddtoFavorites(pet)
-                      : handleRemoveFromFavorites(pet);
+                   !currentUser?.interested?.includes(pet._id) && handleAddtoFavorites(pet)
+                   currentUser?.interested?.includes(pet._id) && handleRemoveFromFavorites(pet);
                   }}
                 >
                   <span className="text-success">Save</span>
                   <Checkbox
-                    checked={currentUser?.interested?.[pet._id] ? true : false}
+                    checked={currentUser?.interested?.includes(pet._id) ? true : false}
                     {...label}
                     icon={<FavoriteBorder />}
                     checkedIcon={
@@ -182,7 +176,7 @@ export default function PetCard({ pet, modal }) {
           color="error"
           variant="contained"
           className={
-            pet.adoptionStatus==='Adopted' && currentUser.adoptedPets.includes(pet._id) || pet.adoptionStatus==='Fostered' && currentUser.fosteredPets.includes(pet._id)?
+            pet.adoptionStatus==='Adopted' && currentUser?.adoptedPets?.includes(pet._id) || pet.adoptionStatus==='Fostered' && currentUser?.fosteredPets?.includes(pet._id)?
               "me-2"
               : "d-none"
           }
@@ -195,7 +189,7 @@ export default function PetCard({ pet, modal }) {
             e.stopPropagation();
             handleClosePetModal();
             fosterPet(pet._id);
-            handleUpdatePetToFostered(pet._id, currentUser._id);
+            handleUpdatePetToFostered(pet._id, currentUser?._id);
           }}
           color="warning"
           variant="contained"
@@ -209,12 +203,12 @@ export default function PetCard({ pet, modal }) {
             e.stopPropagation();
             handleClosePetModal();
             handleAddToAdopted(pet);
-            handleUpdatePetToAdopted(pet._id, currentUser._id);
+            handleUpdatePetToAdopted(pet._id, currentUser?._id);
           }}
           color="success"
           variant="contained"
           className={
-            pet.adoptionStatus!='Adopted' ? 
+            pet.adoptionStatus==='Available' || currentUser?.fosteredPets?.includes(pet._id) ? 
             "me-2" 
             : "d-none"
           }

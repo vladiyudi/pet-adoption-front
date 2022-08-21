@@ -17,7 +17,7 @@ export default function MyPets() {
   const {currentUser} = useAuthContext();
 
   const favorite = pets.filter(pet=>{
-    return currentUser.interested?.[pet._id]
+    return currentUser.interested?.includes(pet._id)
   })
 
   const adoptedList = pets.filter(pet=>{
@@ -32,10 +32,7 @@ export default function MyPets() {
 
 
   return (
-
 <div className='d-flex justify-content-center mt-3 flex-column align-items-center'>
-
-
 <div>
 <Button className='mb-2' color={'success'} 
 onClick={()=>{
