@@ -13,8 +13,20 @@ import { useState } from "react";
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
 export default function PetCard({ pet, modal }) {
-  const { handleOpenPetModal, handleUpdatePetToAdopted, handleClosePetModal } = usePetContext();
-  const { handleAddtoFavorites, handleAddToAdopted, handleRemoveFromFavorites, returnPet } = useAuthContext();
+  const {
+    handleOpenPetModal,
+    handleUpdatePetToAdopted,
+    handleClosePetModal,
+    handleUpdatePetToAvailable,
+    handleUpdatePetToFostered,
+  } = usePetContext();
+  const {
+    handleAddtoFavorites,
+    handleAddToAdopted,
+    handleRemoveFromFavorites,
+    returnPet,
+    fosterPet,
+  } = useAuthContext();
   const { currentUser } = useAuthContext();
 
   let diet = "";
@@ -34,6 +46,11 @@ export default function PetCard({ pet, modal }) {
   } else {
     aStatus = "success";
   }
+
+  // let show = ''
+  // if (currentUser.adoptedPets.includes(pet._id)) {
+  //   console.log('adopted')
+  // }
 
   return (
     <div
@@ -78,12 +95,14 @@ export default function PetCard({ pet, modal }) {
                   className={"me-3"}
                   onClick={(e) => {
                     e.stopPropagation();
-                    !currentUser?.interested?.[pet._id] ? handleAddtoFavorites(pet): handleRemoveFromFavorites(pet);
+                    !currentUser?.interested?.[pet._id]
+                      ? handleAddtoFavorites(pet)
+                      : handleRemoveFromFavorites(pet);
                   }}
                 >
                   <span className="text-success">Save</span>
                   <Checkbox
-                    checked={currentUser?.interested?.[pet._id] ?true:false}
+                    checked={currentUser?.interested?.[pet._id] ? true : false}
                     {...label}
                     icon={<FavoriteBorder />}
                     checkedIcon={
@@ -149,31 +168,56 @@ export default function PetCard({ pet, modal }) {
           </span>
         </div>
       </div>
-      <div 
-      onClick={handleClosePetModal}
-      className={modal ? " d-flex justify-content-end pe-2" : "d-none"}>
-        <Button color="error" variant="contained" className={currentUser?.adoptedPets?.[pet._id] || currentUser?.fosteredPets?.[pet._id] ? "me-2": 'd-none' }>
+      <div
+        // onClick={handleClosePetModal}
+        className={modal ? " d-flex justify-content-end pe-2" : "d-none"}
+      >
+        <Button
+          onClick={(e) => {
+            e.stopPropagation();
+            handleClosePetModal();
+            returnPet(pet._id);
+            handleUpdatePetToAvailable(pet._id);
+          }}
+          color="error"
+          variant="contained"
+          className={
+            pet.adoptionStatus==='Adopted' && currentUser.adoptedPets.includes(pet._id) || pet.adoptionStatus==='Fostered' && currentUser.fosteredPets.includes(pet._id)?
+              "me-2"
+              : "d-none"
+          }
+        >
           <PetsIcon className={"mb-1 me-2"} sx={{}} />
           <span>Return</span>
         </Button>
-
         <Button
+          onClick={(e) => {
+            e.stopPropagation();
+            handleClosePetModal();
+            fosterPet(pet._id);
+            handleUpdatePetToFostered(pet._id, currentUser._id);
+          }}
           color="warning"
           variant="contained"
-          className={modal ? "me-2" : "d-none"}
+          className={pet.adoptionStatus==='Available' ? "me-2" : "d-none"}
         >
           <PetsIcon className={"mb-1 me-2"} sx={{}} />
           <span>Foster</span>
         </Button>
         <Button
-          onClick={()=>{
-           handleClosePetModal()
-            handleAddToAdopted(pet)
-            handleUpdatePetToAdopted(pet._id, currentUser._id)
+          onClick={(e) => {
+            e.stopPropagation();
+            handleClosePetModal();
+            handleAddToAdopted(pet);
+            handleUpdatePetToAdopted(pet._id, currentUser._id);
           }}
           color="success"
           variant="contained"
-          className={modal ? "me-2" : "d-none"}
+          className={
+            pet.adoptionStatus!='Adopted' ? 
+            "me-2" 
+            : "d-none"
+          }
         >
           <PetsIcon className={"mb-1 me-2"} sx={{}} />
           <span>Adopt</span>

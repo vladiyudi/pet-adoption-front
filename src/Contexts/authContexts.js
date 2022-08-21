@@ -104,9 +104,7 @@ try{
     const favoritePet = {petId: pet._id}
     try{
       const res = await axios.post(`${baseUrl}/api/users/${currentUser._id}/favorites`, favoritePet)
-
-      console.log("add",res.data)
-
+      // console.log("add",res.data)
       setCurrentUser(res.data)
     }catch(err){
       console.log(err)
@@ -128,7 +126,7 @@ try{
   const handleAddToAdopted = async (pet) =>{
     const adoptedPet = {petId: pet._id}
     try{
-      const res = await axios.post(`${baseUrl}/api/users/${currentUser._id}/adopted`, adoptedPet)
+      const res = await axios.post(`${baseUrl}/api/users/${currentUser?._id}/adopted`, adoptedPet)
       setCurrentUser(res.data)
 
     }catch(err){
@@ -136,9 +134,18 @@ try{
     }
   }
 
-  const returnPet = async (userId, petId) =>{
+  const returnPet = async (petId) =>{
     try{
-      const res = await axios.put(`${baseUrl}/api/users/${userId}/adopted/${petId}`)
+      const res = await axios.delete(`${baseUrl}/api/users/${currentUser._id}/adopted/${petId}`)
+      setCurrentUser(res.data)
+    }catch(err){
+      console.log(err)
+    }
+  }
+
+  const fosterPet = async (petId) =>{
+    try{
+      const res = await axios.put(`${baseUrl}/api/users/${currentUser._id}/foster/${petId}`)
       setCurrentUser(res.data)
     }catch(err){
       console.log(err)
@@ -147,7 +154,7 @@ try{
 
   return (
     <authConext.Provider
-      value={{openPrivatePage, handleOpen, handleClose, open, handleLoginPage, handleSignUp, errorSignup, currentUser, errorLogin, handleLogout, handleUpdateProfile, updateError, allUsers, editedUser, handleAddtoFavorites, handleAddToAdopted, handleRemoveFromFavorites, returnPet}}
+      value={{openPrivatePage, handleOpen, handleClose, open, handleLoginPage, handleSignUp, errorSignup, currentUser, errorLogin, handleLogout, handleUpdateProfile, updateError, allUsers, editedUser, handleAddtoFavorites, handleAddToAdopted, handleRemoveFromFavorites, returnPet, fosterPet}}
     >
       {children}
     </authConext.Provider>

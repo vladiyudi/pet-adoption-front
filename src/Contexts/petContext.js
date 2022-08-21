@@ -107,6 +107,19 @@ export default function PetContext({ children }) {
     }
   };
 
+  const handleUpdatePetToAvailable = async (petId) => {
+    const updatedPet = await axios.delete(`${baseUrl}/api/pets/adopted/${petId}`);
+    updatePetStatus(updatedPet.data)
+  }
+
+  const handleUpdatePetToFostered = async (petId, userId) =>{
+
+    
+
+    const updatedPet = await axios.put(`${baseUrl}/api/pets/${petId}/foster/${userId}`);
+    updatePetStatus(updatedPet.data)
+  }
+
   return (
     <petContext.Provider
       value={{
@@ -118,7 +131,9 @@ export default function PetContext({ children }) {
         pet,
         handleAddNewPet,
         handleUpdatePetToAdopted,
-        handleClosePetModal
+        handleClosePetModal,
+        handleUpdatePetToAvailable,
+        handleUpdatePetToFostered,
       }}
     >
       {children}
