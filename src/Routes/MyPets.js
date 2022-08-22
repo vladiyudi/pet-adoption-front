@@ -4,7 +4,7 @@ import { usePetContext } from '../Contexts/petContext'
 import { useAuthContext } from '../Contexts/authContexts'
 import { useState } from 'react'
 import { Button } from '@mui/material'
-import {PetsIcon} from '@mui/icons-material'
+import { nanoid } from 'nanoid'
 
 
 export default function MyPets() {
@@ -58,14 +58,14 @@ onClick={()=>{
 >Fostered</Button>
 </div>
 <div className={interested?'w-75 d-flex flex-wrap justify-content-center mt-4':'d-none'}>
-{favorite.map(pet => <PetCard key={pet._id} pet={pet}/>)}
+{favorite.map(pet => <PetCard key={nanoid()} pet={pet} admin={false}/>)}
 </div>
 <div className={adopted?'w-75 d-flex flex-wrap justify-content-center mt-4':'d-none'}>
  
-{adoptedList.map(pet => <PetCard key={pet._id} pet={pet}/>)}
+{adoptedList.map(pet => <PetCard key={nanoid()} pet={pet} admin={false}/>)}
 </div>
 <div className={fostered?'w-75 d-flex flex-wrap justify-content-center mt-4':'d-none'}>
-{fosteredList.map(pet => <PetCard key={pet._id} pet={pet}/>)}
+{fosteredList.map(pet => <PetCard key={nanoid()} pet={pet} admin={false}/>)}
 </div>
     </div>
   )

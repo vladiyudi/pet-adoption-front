@@ -9,24 +9,23 @@ import { InputLabel } from "@mui/material";
 import { yellow } from "@mui/material/colors";
 import FormControl from "@mui/material/FormControl";
 import PetsIcon from "@mui/icons-material/Pets";
-import PetsList from "./PetsList";
 
-export default function AddAndDysplayPet() {
-  const [petName, setPetName] = useState("");
-  const [petType, setType] = useState("");
-  const [breed, setBreed] = useState("");
-  const [weight, setWeight] = useState("");
-  const [height, setHeight] = useState("");
-  const [color, setColor] = useState("");
-  const [hypoallergenic, setHypoallergenic] = useState("");
-  const [bio, setBio] = useState("");
-  const [dietary, setDietary] = useState("");
-  const { handleAddNewPet } = usePetContext();
+export default function AddAndDysplayPet({ePet}) {
+  const [petName, setPetName] = useState(ePet?.name?ePet?.name:"");
+  const [petType, setType] = useState(ePet?.type?ePet?.type:"");
+  const [breed, setBreed] = useState(ePet?.breed?ePet?.breed:"");
+  const [weight, setWeight] = useState(ePet?.weight?ePet?.weight:"");
+  const [height, setHeight] = useState(ePet?.height?ePet?.height:"");
+  const [color, setColor] = useState(ePet?.color?ePet?.color:"");
+  const [hypoallergenic, setHypoallergenic] = useState(ePet?.hypoallergenic?ePet?.hypoallergenic:"");
+  const [bio, setBio] = useState(ePet?.bio?ePet?.bio:"");
+  const [dietary, setDietary] = useState(ePet?.dietary?ePet?.dietary:"");
+  const { handleAddNewPet, handleEditPet } = usePetContext();
 
   return (
     <div className="w-100 d-flex justify-content-center">
       <div className="d-flex flex-column align-items-center rounded w-75 rounded">
-        <span className="fs-3 text-success"><b>Add a new pet</b></span>
+        <span className="fs-3 text-success"><b>{ePet?'Edit a pet':'Add a new pet'}</b></span>
         <FormControl sx={{ m: 1, minWidth: 120 }}>
           <div className="d-flex flex-column">
           <InputLabel color="success" id="demo-simple-select-helper-label">
@@ -146,7 +145,7 @@ export default function AddAndDysplayPet() {
               color="success"
               variant="contained"
               onClick={() => {
-                handleAddNewPet(
+               !ePet && handleAddNewPet(
                   petName,
                   petType,
                   breed,
@@ -157,6 +156,17 @@ export default function AddAndDysplayPet() {
                   bio,
                   dietary
                 );
+                ePet && handleEditPet(
+                  petName,
+                  petType,
+                  breed,
+                  weight,
+                  height,
+                  color,
+                  hypoallergenic,
+                  bio,
+                  dietary
+                )
                 setBio("");
                 setBreed("");
                 setColor("");
@@ -174,11 +184,10 @@ export default function AddAndDysplayPet() {
                   color: yellow[50],
                 }}
               />
-              <span>Add Pet</span>
+              <span>{ePet? 'Save Pet':'Add Pet'}</span>
             </Button>
           </div>
         </FormControl>
-        <PetsList />
       </div>
     </div>
   );

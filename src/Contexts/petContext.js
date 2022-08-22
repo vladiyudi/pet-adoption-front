@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { createContext, useContext, useState } from "react";
 import axios from "axios";
 import { baseUrl } from "./authContexts";
+import { useNavigate } from "react-router-dom";
 
 const petContext = createContext();
 export function usePetContext() {
@@ -12,10 +13,14 @@ export default function PetContext({ children }) {
   const [pets, setPets] = useState([]);
   const [openPetModal, setOpenPetModal] = useState(false);
   const [pet, setPet] = useState("");
+  const [addAdmin, setAddAdmin] = useState(false)
+  const [ePet, setEPet] = useState({})
+  const navigate = useNavigate()
 
-  const handleOpenPetModal = (pet) => {
+  const handleOpenPetModal = (pet, admin) => {
     setOpenPetModal(true);
     setPet(pet);
+    setAddAdmin(admin)
   };
   const handleClosePetModal = () => setOpenPetModal(false);
 
@@ -111,13 +116,36 @@ export default function PetContext({ children }) {
     const updatedPet = await axios.delete(`${baseUrl}/api/pets/adopted/${petId}`);
     updatePetStatus(updatedPet.data)
   }
-
   const handleUpdatePetToFostered = async (petId, userId) =>{
-
-    
-
     const updatedPet = await axios.put(`${baseUrl}/api/pets/${petId}/foster/${userId}`);
     updatePetStatus(updatedPet.data)
+  }
+
+  const editPet = (pet)=>{
+    setEPet(pet)
+    navigate(`/admin/edit/${pet.name}`)
+  }
+
+  const handleEditPet = async ( petName, petType, breed, weight, height,color, hypoallergenic, bio, dietary)=>{
+    try{
+    const diet = dietary?.split(",")?.map((diet) => " " + diet.trim());
+    const res = await axios.put(`${baseUrl}/api/pets/edit/${ePet._id}`, {
+      name: petName,
+      type: petType,
+      breed,
+      weight,
+      height,
+      color,
+      hypoallergenic,
+      bio,
+      dietary: [diet],
+    });
+    updatePetStatus(res.data)
+    // getAllPets();
+  // navigate('/admin')
+  }catch(err){
+      console.log(err)
+    }
   }
 
   return (
@@ -134,6 +162,10 @@ export default function PetContext({ children }) {
         handleClosePetModal,
         handleUpdatePetToAvailable,
         handleUpdatePetToFostered,
+        addAdmin,
+        editPet,
+        ePet,
+        handleEditPet,
       }}
     >
       {children}

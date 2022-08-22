@@ -78,7 +78,7 @@ export default function NavBar() {
               </Button>
             </NavLink>
             <NavLink
-                to={`/admin/${currentUser.userName}`}
+                to={`/admin`}
                 className={({ isActive }) =>
                   isActive ? "text-success" : "text-secondary"
                 }

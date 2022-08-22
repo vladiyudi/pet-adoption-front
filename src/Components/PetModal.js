@@ -13,13 +13,10 @@ const style = {
   width: 500,
   ouline: "none",
   borderRadius: 5,
-  // bgcolor: "background.paper",
-  // border: "2px solid #000",
-  // boxShadow: 24,
 };
 
 export default function PetModal() {
-  const { openPetModal, handleClosePetModal, handleOpenPetModal, pet } =
+  const { openPetModal, handleClosePetModal, pet, addAdmin, } =
     usePetContext();
   return (
     <div className="d-flex justify-content-center align-items-center">
@@ -30,7 +27,7 @@ export default function PetModal() {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-        <PetCard pet={pet} modal={true}/>
+        <PetCard pet={pet} modal={true} admin={addAdmin}/>
         </Box>
       </Modal>
     </div>

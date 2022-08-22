@@ -51,8 +51,8 @@ export default function Search() {
   return (
     <div className=" d-flex justify-content-center flex-column align-items-center">
       <span className='mt-5 w-50 homeContainer mb-5'>{
-      `Greetings, ${currentUser.userName} ${currentUser.lastName?currentUser.lastName:''}!
-       Who does your heart choose?`}  </span>
+      `Greetings, ${currentUser.userName} ${currentUser.lastName?currentUser.lastName:''},
+       \t Look how cute they are!`}  </span>
       <div className=" d-flex justify-content-start searchBar align-items-center flex-column">
       <div className="align-self-end d-flex  align-items-center">
         <span className="advanced text-warning mt-2">Advanced search</span>

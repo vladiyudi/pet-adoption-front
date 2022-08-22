@@ -10,15 +10,17 @@ import Favorite from "@mui/icons-material/Favorite";
 import { useAuthContext } from "../Contexts/authContexts";
 import { useState } from "react";
 
+
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
-export default function PetCard({ pet, modal }) {
+export default function PetCard({ pet, modal, admin }) {
   const {
     handleOpenPetModal,
     handleUpdatePetToAdopted,
     handleClosePetModal,
     handleUpdatePetToAvailable,
     handleUpdatePetToFostered,
+    editPet,
   } = usePetContext();
   const {
     handleAddtoFavorites,
@@ -51,7 +53,7 @@ export default function PetCard({ pet, modal }) {
     <div
       className="border petCard me-2 mb-2 pb-4 pt-1 pe-1"
       onClick={() => {
-        !modal && handleOpenPetModal(pet);
+        !modal && handleOpenPetModal(pet, admin);
       }}
     >
       <div className="d-flex w-100">
@@ -163,9 +165,21 @@ export default function PetCard({ pet, modal }) {
         </div>
       </div>
       <div
-        // onClick={handleClosePetModal}
-        className={modal ? " d-flex justify-content-end pe-2" : "d-none"}
+        className={modal ? " d-flex justify-content-center " : "d-none"}
       >
+        <Button className={admin?"me-2":"d-none"}
+         color="secondary"
+         variant="contained"
+         onClick={(e)=>{
+          e.stopPropagation();
+          handleClosePetModal();
+          editPet(pet)
+        }}
+        >
+        <PetsIcon className={"mb-1 me-2"} sx={{}} 
+        />
+          <span>Edit</span>
+        </Button>
         <Button
           onClick={(e) => {
             e.stopPropagation();

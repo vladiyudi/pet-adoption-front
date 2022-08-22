@@ -8,7 +8,7 @@ export default function PetsList() {
   return (
     <div className='mt-5 d-flex flex-wrap justify-content-center'>{
         pets.map(pet => {
-            return <PetCard key={pet._id} pet={pet} modal={false}/>
+            return <PetCard key={pet._id} pet={pet} admin={false} modal={false}/>
         })
     }</div>
   )
