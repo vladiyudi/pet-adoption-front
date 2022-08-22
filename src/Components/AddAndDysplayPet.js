@@ -1,5 +1,5 @@
-import React from "react";
-import { TextField } from "@mui/material";
+import React, { useEffect } from "react";
+import { Avatar, TextField } from "@mui/material";
 import { Button } from "@mui/material";
 import { useState } from "react";
 import { usePetContext } from "../Contexts/petContext";
@@ -9,8 +9,10 @@ import { InputLabel } from "@mui/material";
 import { yellow } from "@mui/material/colors";
 import FormControl from "@mui/material/FormControl";
 import PetsIcon from "@mui/icons-material/Pets";
+import Form from 'react-bootstrap/Form';
 
 export default function AddAndDysplayPet({ePet}) {
+
   const [petName, setPetName] = useState(ePet?.name?ePet?.name:"");
   const [petType, setType] = useState(ePet?.type?ePet?.type:"");
   const [breed, setBreed] = useState(ePet?.breed?ePet?.breed:"");
@@ -21,14 +23,41 @@ export default function AddAndDysplayPet({ePet}) {
   const [bio, setBio] = useState(ePet?.bio?ePet?.bio:"");
   const [dietary, setDietary] = useState(ePet?.dietary?ePet?.dietary:"");
   const { handleAddNewPet, handleEditPet } = usePetContext();
+  const [picture, setPicture] = useState(null)
+  const [preview, setPreview] = useState(null)
 
+  const handlePictureUpload = (e)=>{
+    setPicture(e.target.files[0])
+  }
+
+  useEffect(() => {
+    if (!picture) {setPreview(null) 
+      return}
+    const obgUrl = URL.createObjectURL(picture)
+    setPreview(obgUrl)
+    return () => {
+      URL.revokeObjectURL(obgUrl)
+    }
+  } , [picture])
+  
   return (
     <div className="w-100 d-flex justify-content-center">
       <div className="d-flex flex-column align-items-center rounded w-75 rounded">
         <span className="fs-3 text-success"><b>{ePet?'Edit a pet':'Add a new pet'}</b></span>
         <FormControl sx={{ m: 1, minWidth: 120 }}>
-          <div className="d-flex flex-column">
-          <InputLabel color="success" id="demo-simple-select-helper-label">
+        <div className="mb-1 d-flex align-items-center"><Avatar
+         src={preview}
+         sx={{ width: 120, height: 120 }}
+        ></Avatar>
+        <div className="winp ms-3">
+        <Form.Label>Upload Picture</Form.Label>
+        <Form.Control type="file" onChange={
+          handlePictureUpload}/>
+        </div>
+        </div>
+          <div className="d-flex flex-column">   
+          <InputLabel color="success" id="demo-simple-select-helper-label"
+          className="inputLable">
                 Type
               </InputLabel>
               <Select
@@ -154,7 +183,8 @@ export default function AddAndDysplayPet({ePet}) {
                   color,
                   hypoallergenic,
                   bio,
-                  dietary
+                  dietary, 
+                  picture,
                 );
                 ePet && handleEditPet(
                   petName,
@@ -165,15 +195,16 @@ export default function AddAndDysplayPet({ePet}) {
                   color,
                   hypoallergenic,
                   bio,
-                  dietary
+                  dietary,
+                  picture,
                 )
-                setBio("");
+                setBio('');
                 setBreed("");
                 setColor("");
                 setDietary("");
                 setHeight("");
                 setHypoallergenic("");
-                setPetName("");
+                setPetName('');
                 setType("");
                 setWeight("");
               }}

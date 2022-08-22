@@ -72,6 +72,14 @@
   font-size: 20px;
 }
 
+.winp{
+  width: 111px;
+}
+
+.inputLable{
+  margin-top: 129px;
+}
+
 .homeContainer {
   font-family: "DynaPuff", cursive;
   color: green;

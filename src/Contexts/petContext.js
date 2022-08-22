@@ -42,7 +42,8 @@ export default function PetContext({ children }) {
     color,
     hypoallergenic,
     bio,
-    dietary
+    dietary,
+    picture,
   ) => {
     try {
       const diet = dietary.split(",").map((diet) => " " + diet.trim());
@@ -56,6 +57,7 @@ export default function PetContext({ children }) {
         hypoallergenic,
         bio,
         dietary: [diet],
+        picture,
       });
       getAllPets();
     } catch (err) {
@@ -128,7 +130,10 @@ export default function PetContext({ children }) {
 
   const handleEditPet = async ( petName, petType, breed, weight, height,color, hypoallergenic, bio, dietary)=>{
     try{
-    const diet = dietary?.split(",")?.map((diet) => " " + diet.trim());
+      let diet = ''
+      if (typeof dietary === "string") {
+        diet = dietary?.split(",")?.map((diet) => " " + diet.trim());
+      } else {diet = dietary}
     const res = await axios.put(`${baseUrl}/api/pets/edit/${ePet._id}`, {
       name: petName,
       type: petType,
@@ -138,11 +143,11 @@ export default function PetContext({ children }) {
       color,
       hypoallergenic,
       bio,
-      dietary: [diet],
+      dietary: diet,
     });
-    updatePetStatus(res.data)
-    // getAllPets();
-  // navigate('/admin')
+    console.log(res.data)
+    getAllPets();
+  navigate('/admin')
   }catch(err){
       console.log(err)
     }

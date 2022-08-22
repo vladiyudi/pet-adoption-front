@@ -9,7 +9,7 @@ export default function EditPet() {
   return (
     <div className='d-flex flex-column'>
     <div><AddAndDysplayPet ePet={ePet}/></div>
-    <div className='align-self-center'> <PetCard pet={ePet} modal={false} /></div>
+    <div className='align-self-center'> <PetCard pet={ePet} modal={false} admin={true}/></div>
     </div>
   )
 }

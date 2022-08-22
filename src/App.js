@@ -24,7 +24,7 @@ function App() {
         <AuthContexts>
           <PetContext>
           <NavBar />
-          <PetModal></PetModal>
+          <PetModal/>
           <LoginModal />
           <Routes>
             <Route path="/" element={<HomePage/>}></Route>
