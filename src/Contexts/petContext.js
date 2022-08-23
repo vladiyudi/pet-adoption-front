@@ -13,14 +13,14 @@ export default function PetContext({ children }) {
   const [pets, setPets] = useState([]);
   const [openPetModal, setOpenPetModal] = useState(false);
   const [pet, setPet] = useState("");
-  const [addAdmin, setAddAdmin] = useState(false)
-  const [ePet, setEPet] = useState({})
-  const navigate = useNavigate()
+  const [addAdmin, setAddAdmin] = useState(false);
+  const [ePet, setEPet] = useState({});
+  const navigate = useNavigate();
 
   const handleOpenPetModal = (pet, admin) => {
     setOpenPetModal(true);
     setPet(pet);
-    setAddAdmin(admin)
+    setAddAdmin(admin);
   };
   const handleClosePetModal = () => setOpenPetModal(false);
 
@@ -33,6 +33,33 @@ export default function PetContext({ children }) {
     }
   };
 
+  const addToFormData = (
+    petName,
+    type,
+    breed,
+    weight,
+    height,
+    color,
+    hypoallergenic,
+    bio,
+    diet,
+    picture
+  ) => {
+ 
+    const petData = new FormData();
+    petData.append("name", petName);
+    petData.append("type", type);
+    petData.append("breed", breed);
+    petData.append("weight", weight);
+    petData.append("height", height);
+    petData.append("color", color);
+    petData.append("hypoallergenic", hypoallergenic);
+    petData.append("bio", bio);
+    petData.append("dietary", diet);
+    petData.append("picture", picture);
+    return petData;
+  };
+
   const handleAddNewPet = async (
     petName,
     type,
@@ -43,22 +70,23 @@ export default function PetContext({ children }) {
     hypoallergenic,
     bio,
     dietary,
-    picture,
+    picture
   ) => {
+    const diet = dietary.split(",").map((diet) => " " + diet.trim());
+    const petData = addToFormData(
+      petName,
+      type,
+      breed,
+      weight,
+      height,
+      color,
+      hypoallergenic,
+      bio,
+      diet,
+      picture
+    );
     try {
-      const diet = dietary.split(",").map((diet) => " " + diet.trim());
-      const res = await axios.post(`${baseUrl}/api/pets/add`, {
-        name: petName,
-        type,
-        breed,
-        weight,
-        height,
-        color,
-        hypoallergenic,
-        bio,
-        dietary: [diet],
-        picture,
-      });
+      const res = await axios.post(`${baseUrl}/api/pets/add`, petData);
       getAllPets();
     } catch (err) {
       console.log(err);
@@ -101,57 +129,77 @@ export default function PetContext({ children }) {
       } else {
         return pet;
       }
-    })
+    });
     setPets(updatedList);
   };
 
   const handleUpdatePetToAdopted = async (petId, uid) => {
     try {
-      const updatedPet = await axios.get(`${baseUrl}/api/pets/adopt/${uid}/${petId}`);
-      updatePetStatus(updatedPet.data)
+      const updatedPet = await axios.get(
+        `${baseUrl}/api/pets/adopt/${uid}/${petId}`
+      );
+      updatePetStatus(updatedPet.data);
     } catch (err) {
       console.log(err);
     }
   };
 
   const handleUpdatePetToAvailable = async (petId) => {
-    const updatedPet = await axios.delete(`${baseUrl}/api/pets/adopted/${petId}`);
-    updatePetStatus(updatedPet.data)
-  }
-  const handleUpdatePetToFostered = async (petId, userId) =>{
-    const updatedPet = await axios.put(`${baseUrl}/api/pets/${petId}/foster/${userId}`);
-    updatePetStatus(updatedPet.data)
-  }
+    const updatedPet = await axios.delete(
+      `${baseUrl}/api/pets/adopted/${petId}`
+    );
+    updatePetStatus(updatedPet.data);
+  };
+  const handleUpdatePetToFostered = async (petId, userId) => {
+    const updatedPet = await axios.put(
+      `${baseUrl}/api/pets/${petId}/foster/${userId}`
+    );
+    updatePetStatus(updatedPet.data);
+  };
 
-  const editPet = (pet)=>{
-    setEPet(pet)
-    navigate(`/admin/edit/${pet.name}`)
-  }
+  const editPet = (pet) => {
+    setEPet(pet);
+    navigate(`/admin/edit/${pet.name}`);
+  };
 
-  const handleEditPet = async ( petName, petType, breed, weight, height,color, hypoallergenic, bio, dietary)=>{
-    try{
-      let diet = ''
+  const handleEditPet = async (
+    petName,
+    petType,
+    breed,
+    weight,
+    height,
+    color,
+    hypoallergenic,
+    bio,
+    dietary,
+    picture
+  ) => {
+    try {
+      let diet = "";
       if (typeof dietary === "string") {
         diet = dietary?.split(",")?.map((diet) => " " + diet.trim());
-      } else {diet = dietary}
-    const res = await axios.put(`${baseUrl}/api/pets/edit/${ePet._id}`, {
-      name: petName,
-      type: petType,
-      breed,
-      weight,
-      height,
-      color,
-      hypoallergenic,
-      bio,
-      dietary: diet,
-    });
-    console.log(res.data)
-    getAllPets();
-  navigate('/admin')
-  }catch(err){
-      console.log(err)
+      } else {
+        diet = dietary;
+      }
+      const editedPet = addToFormData(
+        petName,
+        petType,
+        breed,
+        weight,
+        height,
+        color,
+        hypoallergenic,
+        bio,
+        diet,
+        picture,
+      );
+      const res = await axios.put(`${baseUrl}/api/pets/edit/${ePet._id}`, editedPet);
+      getAllPets();
+      navigate("/admin");
+    } catch (err) {
+      console.log(err);
     }
-  }
+  };
 
   return (
     <petContext.Provider

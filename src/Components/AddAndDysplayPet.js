@@ -46,7 +46,7 @@ export default function AddAndDysplayPet({ePet}) {
         <span className="fs-3 text-success"><b>{ePet?'Edit a pet':'Add a new pet'}</b></span>
         <FormControl sx={{ m: 1, minWidth: 120 }}>
         <div className="mb-1 d-flex align-items-center"><Avatar
-         src={preview}
+         src={preview?preview: ePet?.picture || 'undefined'}
          sx={{ width: 120, height: 120 }}
         ></Avatar>
         <div className="winp ms-3">
