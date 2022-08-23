@@ -51,8 +51,10 @@ export default function AuthContexts({ children }) {
   const handleLoginPage =  async (login, password) => {
     const loginUser = {email: login, password: password}
     try{
-      const res = await axios.post(`${baseUrl}/api/users/login`, loginUser);
-      setCurrentUser(res.data);
+      const res = await axios.post(`${baseUrl}/api/users/login`, loginUser, {withCredentials: true});
+      const {user} = res.data
+      console.log(res.data)
+      setCurrentUser(user);
        navigate('/search')
     }catch(err){
       err.response.data.message ? setErrorLogin(err.response.data.message) : setErrorLogin(err.response.data)

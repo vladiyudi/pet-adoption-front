@@ -45,7 +45,6 @@ export default function PetContext({ children }) {
     diet,
     picture
   ) => {
- 
     const petData = new FormData();
     petData.append("name", petName);
     petData.append("type", type);
