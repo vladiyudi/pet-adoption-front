@@ -72,6 +72,10 @@
   font-size: 20px;
 }
 
+.link{
+  text-decoration: none;
+}
+
 .winp{
   width: 111px;
 }

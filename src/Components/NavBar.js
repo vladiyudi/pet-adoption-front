@@ -14,10 +14,11 @@ import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 export default function NavBar() {
   const isMobile = useMediaQuery({ maxWidth: 850 });
   const { handleOpen, currentUser, handleLogout } = useAuthContext();
+  // console.log("current", currentUser)
   return (
     <div className="d-flex justify-content-center">
       <div className="w-75  navBar d-flex justify-content-end align-items-center">
-        <div className={currentUser ? "w-100" : "d-none"}>
+        <div className={currentUser?.userName ? "w-100" : "d-none"}>
           <span className={!isMobile? "d-none":'success'}>
             <Hamburger color="#008000" className=""></Hamburger>
           </span>
@@ -28,7 +29,7 @@ export default function NavBar() {
               <NavLink
                 to={`/search`}
                 className={({ isActive }) =>
-                  isActive ? "text-success" : "text-secondary"
+                  isActive ? "text-success link" : "text-secondary link"
                 }
               >
                 <Button className="mb-1 ms-1" variant="standard">
@@ -43,7 +44,7 @@ export default function NavBar() {
               <NavLink
                 to={`/mypets`}
                 className={({ isActive }) =>
-                  isActive ? "text-success" : "text-secondary"
+                  isActive ? "text-success link" : "text-secondary link"
                 }
               >
                 <Button
@@ -63,9 +64,9 @@ export default function NavBar() {
             </div>
                     <div>
             <NavLink
-              to={`/profile/${currentUser.userName}`}
+              to={`/profile/${currentUser?.userName}`}
               className={({ isActive }) =>
-                isActive ? "text-success" : "text-secondary"
+                isActive ? "text-success link" : "text-secondary link"
               }
             >
               <Button className="mb-1" variant="standard">
@@ -80,13 +81,13 @@ export default function NavBar() {
             <NavLink
                 to={`/admin`}
                 className={({ isActive }) =>
-                  isActive ? "text-success" : "text-secondary"
+                  isActive ? "text-success link" : "text-secondary link"
                 }
               >
                 <Button
                   color={"success"}
                   variant="standard"
-                  className={currentUser ? "me-1 ms-1 h-75" : "d-none"}
+                  className={currentUser?.admin ? "me-1 ms-1 h-75" : "d-none"}
                 >
                   <AdminPanelSettingsIcon
                     className="mb-1 me-1"
@@ -104,7 +105,7 @@ export default function NavBar() {
           onClick={handleOpen}
           color={"success"}
           variant="contained"
-          className={currentUser ? "d-none" : "me-2 h-75"}
+          className={currentUser?.userName ? "d-none" : "me-2 h-75"}
         >
           <PetsIcon
             className="mb-1 me-2"
@@ -115,10 +116,10 @@ export default function NavBar() {
           <span>Login</span>
         </Button>
         <Button
-          onClick={handleLogout}
+          onClick={()=>{handleLogout(currentUser._id)}}
           color={"success"}
           variant="outlined"
-          className={currentUser ? "me-2 h-75" : "d-none"}
+          className={currentUser?.userName ? "me-2 h-75" : "d-none"}
         >
           <PetsIcon
             className="mb-1 me-2"

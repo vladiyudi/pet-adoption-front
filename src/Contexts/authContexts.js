@@ -3,6 +3,7 @@ import React from "react";
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom'
 import { usePetContext } from "./petContext";
+import {Cookies} from 'react-cookie';
 
 export const baseUrl = 'http://localhost:8080'
 
@@ -22,21 +23,24 @@ export default function AuthContexts({ children }) {
   const [updateError, setUpdateError] = useState('');
   const [allUsers, setAllUsers] = useState([]);
   const [editedUser, setEditedUser] = useState({})
+  const [hello, setHello] = useState('')
   // const {updatePetStatus} = usePetContext();
   // console.log(updatePetStatus)
+
+  // useEffect(() => {cookies.get('token')} , [])
 
   useEffect(() => {
     if(currentUser){
       handleClose()
       localStorage.setItem('currentUser', JSON.stringify(currentUser))
+      // console.log("current", currentUser)
     }
     getAllUsers()
   } , [currentUser]);
 
-
   const getAllUsers = async () => {
     try {
-      const res = await axios.get(`${baseUrl}/api/users/all`);
+      const res = await axios.get(`${baseUrl}/api/users/all`,{withCredentials: true});
       setAllUsers(res.data)
     } catch (error) {
       console.log(error);
@@ -53,7 +57,6 @@ export default function AuthContexts({ children }) {
     try{
       const res = await axios.post(`${baseUrl}/api/users/login`, loginUser, {withCredentials: true});
       const {user} = res.data
-      console.log(res.data)
       setCurrentUser(user);
        navigate('/search')
     }catch(err){
@@ -64,7 +67,14 @@ export default function AuthContexts({ children }) {
     }
   };
 
-  function handleLogout(){
+  async function handleLogout(){
+    try{
+      const res = await axios.get(`${baseUrl}/api/users/logout/`, {withCredentials: true});
+      const {ok} = res.data
+      localStorage.setItem('currentUser', JSON.stringify({}));
+      setCurrentUser({});
+      navigate('/')
+    } catch(err){console.log(err.response.data)}
     setCurrentUser('');
   }
 
@@ -77,7 +87,7 @@ export default function AuthContexts({ children }) {
       bio: bio
     }
     try{
-      const res = await axios.put(`${baseUrl}/api/users/${currentUser._id}`, updatedUser);
+      const res = await axios.put(`${baseUrl}/api/users/${currentUser._id}`, updatedUser, {withCredentials: true});
       setCurrentUser(res.data);
     }catch(err){
       err.response.data.message ? setUpdateError(err.response.data.message) : setUpdateError(err.response.data)
@@ -91,8 +101,9 @@ export default function AuthContexts({ children }) {
     const newUser = {userName: user, email: signup, password1: password1, password2: password2}
 try{
     const res = await axios.post(`${baseUrl}/api/users/signUp`, newUser)
-    setCurrentUser(res.data)
-    navigate('/search')
+    setHello(res.data)
+    handleClose()
+    // navigate('/search')
   }
     catch(err){
       err.response.data.message ? setErrorSignUp(err.response.data.message) : setErrorSignUp(err.response.data)
@@ -105,7 +116,7 @@ try{
   const handleAddtoFavorites = async (pet) =>{
     const favoritePet = {petId: pet._id}
     try{
-      const res = await axios.post(`${baseUrl}/api/users/${currentUser._id}/favorites`, favoritePet)
+      const res = await axios.post(`${baseUrl}/api/users/${currentUser._id}/favorites`, favoritePet, {withCredentials: true});
       setCurrentUser(res.data)
     }catch(err){
       console.log(err)
@@ -114,7 +125,7 @@ try{
 
   const handleRemoveFromFavorites = async (pet) => {
     try{
-    const res = await axios.delete(`${baseUrl}/api/users/${currentUser._id}/favorites/${pet._id}`)
+    const res = await axios.delete(`${baseUrl}/api/users/${currentUser._id}/favorites/${pet._id}`, {withCredentials: true})
     setCurrentUser(res.data)
   }catch(err){
       console.log(err)
@@ -124,7 +135,7 @@ try{
   const handleAddToAdopted = async (pet) =>{
     const adoptedPet = {petId: pet._id}
     try{
-      const res = await axios.post(`${baseUrl}/api/users/${currentUser?._id}/adopted`, adoptedPet)
+      const res = await axios.post(`${baseUrl}/api/users/${currentUser?._id}/adopted`, adoptedPet, {withCredentials: true})
       setCurrentUser(res.data)
 
     }catch(err){
@@ -134,7 +145,7 @@ try{
 
   const returnPet = async (petId) =>{
     try{
-      const res = await axios.delete(`${baseUrl}/api/users/${currentUser._id}/adopted/${petId}`)
+      const res = await axios.delete(`${baseUrl}/api/users/${currentUser._id}/adopted/${petId}`, {withCredentials: true})
       setCurrentUser(res.data)
     }catch(err){
       console.log(err)
@@ -143,16 +154,17 @@ try{
 
   const fosterPet = async (petId) =>{
     try{
-      const res = await axios.put(`${baseUrl}/api/users/${currentUser._id}/foster/${petId}`)
+      const res = await axios.get(`${baseUrl}/api/users/${currentUser._id}/foster/${petId}`, {withCredentials: true})
       setCurrentUser(res.data)
     }catch(err){
       console.log(err)
     }
   }
 
+
   return (
     <authConext.Provider
-      value={{openPrivatePage, handleOpen, handleClose, open, handleLoginPage, handleSignUp, errorSignup, currentUser, errorLogin, handleLogout, handleUpdateProfile, updateError, allUsers, editedUser, handleAddtoFavorites, handleAddToAdopted, handleRemoveFromFavorites, returnPet, fosterPet}}
+      value={{openPrivatePage, handleOpen, handleClose, open, handleLoginPage, handleSignUp, errorSignup, currentUser, errorLogin, handleLogout, handleUpdateProfile, updateError, allUsers, editedUser, handleAddtoFavorites, handleAddToAdopted, handleRemoveFromFavorites, returnPet, fosterPet, hello}}
     >
       {children}
     </authConext.Provider>

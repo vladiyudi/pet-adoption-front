@@ -16,18 +16,18 @@ export default function MyPets() {
   const {pets} = usePetContext();
   const {currentUser} = useAuthContext();
 
-  const favorite = pets.filter(pet=>{
-    return currentUser.interested?.includes(pet._id)
+  const favorite = pets?.filter(pet=>{
+    return currentUser.interested?.includes(pet?._id)
   })
 
-  const adoptedList = pets.filter(pet=>{
-    const match = currentUser.adoptedPets.filter(adopted=>adopted===pet._id)
-    return pet._id===match[0]
+  const adoptedList = pets?.filter(pet=>{
+    const match = currentUser.adoptedPets?.filter(adopted=>adopted===pet?._id)
+    return pet?._id===match[0]
   } )
 
-  const fosteredList = pets.filter(pet=>{
-    const match = currentUser.fosteredPets.filter(fostered=>fostered===pet._id)
-    return pet._id===match[0]
+  const fosteredList = pets?.filter(pet=>{
+    const match = currentUser.fosteredPets?.filter(fostered=>fostered===pet?._id)
+    return pet?._id===match[0]
   })
 
 
@@ -58,14 +58,14 @@ onClick={()=>{
 >Fostered</Button>
 </div>
 <div className={interested?'w-75 d-flex flex-wrap justify-content-center mt-4':'d-none'}>
-{favorite.map(pet => <PetCard key={nanoid()} pet={pet} admin={false}/>)}
+{favorite?.map(pet => <PetCard key={nanoid()} pet={pet} admin={false}/>)}
 </div>
 <div className={adopted?'w-75 d-flex flex-wrap justify-content-center mt-4':'d-none'}>
  
-{adoptedList.map(pet => <PetCard key={nanoid()} pet={pet} admin={false}/>)}
+{adoptedList?.map(pet => <PetCard key={nanoid()} pet={pet} admin={false}/>)}
 </div>
 <div className={fostered?'w-75 d-flex flex-wrap justify-content-center mt-4':'d-none'}>
-{fosteredList.map(pet => <PetCard key={nanoid()} pet={pet} admin={false}/>)}
+{fosteredList?.map(pet => <PetCard key={nanoid()} pet={pet} admin={false}/>)}
 </div>
     </div>
   )

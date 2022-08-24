@@ -26,7 +26,7 @@ export default function PetContext({ children }) {
 
   const getAllPets = async () => {
     try {
-      const allPets = await axios.get(`${baseUrl}/api/pets`);
+      const allPets = await axios.get(`${baseUrl}/api/pets`, { withCredentials: true });
       setPets(allPets.data);
     } catch (err) {
       console.log(err);
@@ -85,7 +85,7 @@ export default function PetContext({ children }) {
       picture
     );
     try {
-      const res = await axios.post(`${baseUrl}/api/pets/add`, petData);
+      const res = await axios.post(`${baseUrl}/api/pets/add`, petData,{withCredentials: true});
       getAllPets();
     } catch (err) {
       console.log(err);
@@ -116,7 +116,7 @@ export default function PetContext({ children }) {
     };
     const searchResults = await axios.post(
       `${baseUrl}/api/pets/search`,
-      searchInput
+      searchInput, {withCredentials: true}
     );
     setPets(searchResults.data);
   };
@@ -135,7 +135,7 @@ export default function PetContext({ children }) {
   const handleUpdatePetToAdopted = async (petId, uid) => {
     try {
       const updatedPet = await axios.get(
-        `${baseUrl}/api/pets/adopt/${uid}/${petId}`
+        `${baseUrl}/api/pets/adopt/${uid}/${petId}`, {withCredentials: true}
       );
       updatePetStatus(updatedPet.data);
     } catch (err) {
@@ -145,13 +145,12 @@ export default function PetContext({ children }) {
 
   const handleUpdatePetToAvailable = async (petId) => {
     const updatedPet = await axios.delete(
-      `${baseUrl}/api/pets/adopted/${petId}`
+      `${baseUrl}/api/pets/adopted/${petId}`, {withCredentials: true}
     );
     updatePetStatus(updatedPet.data);
   };
   const handleUpdatePetToFostered = async (petId, userId) => {
-    const updatedPet = await axios.put(
-      `${baseUrl}/api/pets/${petId}/foster/${userId}`
+    const updatedPet = await axios.get(`${baseUrl}/api/pets/${petId}/foster/${userId}`, {withCredentials: true}
     );
     updatePetStatus(updatedPet.data);
   };
@@ -192,7 +191,7 @@ export default function PetContext({ children }) {
         diet,
         picture,
       );
-      const res = await axios.put(`${baseUrl}/api/pets/edit/${ePet._id}`, editedPet);
+      const res = await axios.put(`${baseUrl}/api/pets/edit/${ePet._id}`, editedPet, {withCredentials: true});
       getAllPets();
       navigate("/admin");
     } catch (err) {
