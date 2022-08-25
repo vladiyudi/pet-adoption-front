@@ -6,17 +6,12 @@ import { useAuthContext } from '../Contexts/authContexts'
 
 export default function PrivateRoute({children}) {
 const navigate = useNavigate()
-const {currentUser, handleLogout} = useAuthContext()
-// navigate('/')
-useEffect(() => {
-  if(!currentUser?.userName){
-    // handleLogout()
-    navigate('/')
-  }
-}, 
-[currentUser]
-// []
-)
+const {currentUser, verifyUser} = useAuthContext()
+
+//   useEffect(()=>{
+// if (!currentUser?.userName) navigate('/')
+//   },[currentUser])
+
 
   return (
     children

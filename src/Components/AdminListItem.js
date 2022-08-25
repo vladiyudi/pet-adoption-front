@@ -10,9 +10,9 @@ export default function AdminListItem({user}) {
     <div className='d-flex justify-content-center mt-1' onClick={()=>{openPrivatePage(user)}}>
     <div className='d-flex border rounded adminItem'>
     <div className='tableItem'>
-      <span>{user.userName} </span>
+      <span><span className='me-1'>{user.admin?`(A)`:'' }</span><b>{user.userName}</b></span>
       <span>&nbsp;</span>
-      <span>{user?.lastName}</span>
+      <span><b>{user?.lastName}</b></span>
     </div>
     <div className='tableItem'>
       <span>{user.email}</span>

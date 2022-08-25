@@ -18,25 +18,26 @@ export default function AuthContexts({ children }) {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const[errorSignup, setErrorSignUp] = useState('');
-  const [currentUser, setCurrentUser] = useState(localStorage.getItem('currentUser')? JSON.parse(localStorage.getItem('currentUser')): {});
+  const [currentUser, setCurrentUser] = useState({})
   const [errorLogin, setErrorLogin] = useState('');
   const [updateError, setUpdateError] = useState('');
   const [allUsers, setAllUsers] = useState([]);
   const [editedUser, setEditedUser] = useState({})
   const [hello, setHello] = useState('')
-  // const {updatePetStatus} = usePetContext();
-  // console.log(updatePetStatus)
+ 
+  useEffect(()=>{
+    verifyUser()
+  },[])
 
-  // useEffect(() => {cookies.get('token')} , [])
-
-  useEffect(() => {
-    if(currentUser){
-      handleClose()
-      localStorage.setItem('currentUser', JSON.stringify(currentUser))
-      // console.log("current", currentUser)
-    }
-    getAllUsers()
-  } , [currentUser]);
+  const verifyUser = async ()=>{
+    try{
+    const res = await axios.get(`${baseUrl}/api/users/verify`, {withCredentials:true})
+    setCurrentUser(res.data)
+    return res.data
+  } catch (err){
+    console.log(err)
+  }
+  }
 
   const getAllUsers = async () => {
     try {
@@ -58,6 +59,7 @@ export default function AuthContexts({ children }) {
       const res = await axios.post(`${baseUrl}/api/users/login`, loginUser, {withCredentials: true});
       const {user} = res.data
       setCurrentUser(user);
+      handleClose()
        navigate('/search')
     }catch(err){
       err.response.data.message ? setErrorLogin(err.response.data.message) : setErrorLogin(err.response.data)
@@ -71,23 +73,25 @@ export default function AuthContexts({ children }) {
     try{
       const res = await axios.get(`${baseUrl}/api/users/logout/`, {withCredentials: true});
       const {ok} = res.data
-      localStorage.setItem('currentUser', JSON.stringify({}));
+      // localStorage.setItem('currentUser', JSON.stringify({}));
+      if (ok){
       setCurrentUser({});
-      navigate('/')
+      navigate('/')}
     } catch(err){console.log(err.response.data)}
     setCurrentUser('');
   }
 
-  const handleUpdateProfile = async (userName, lastName, email, phoneNumber, bio) =>{
+  const handleUpdateProfile = async (userName, lastName, email, phoneNumber, bio, userid) =>{
     const updatedUser = {
       userName: userName,
       lastName: lastName,
       email: email,
       phoneNumber: phoneNumber,
-      bio: bio
+      bio: bio,
+      _id: userid,
     }
     try{
-      const res = await axios.put(`${baseUrl}/api/users/${currentUser._id}`, updatedUser, {withCredentials: true});
+      const res = await axios.put(`${baseUrl}/api/users/update`, updatedUser, {withCredentials: true});
       setCurrentUser(res.data);
     }catch(err){
       err.response.data.message ? setUpdateError(err.response.data.message) : setUpdateError(err.response.data)
@@ -116,7 +120,7 @@ try{
   const handleAddtoFavorites = async (pet) =>{
     const favoritePet = {petId: pet._id}
     try{
-      const res = await axios.post(`${baseUrl}/api/users/${currentUser._id}/favorites`, favoritePet, {withCredentials: true});
+      const res = await axios.post(`${baseUrl}/api/users/favorites`, favoritePet, {withCredentials: true});
       setCurrentUser(res.data)
     }catch(err){
       console.log(err)
@@ -125,7 +129,7 @@ try{
 
   const handleRemoveFromFavorites = async (pet) => {
     try{
-    const res = await axios.delete(`${baseUrl}/api/users/${currentUser._id}/favorites/${pet._id}`, {withCredentials: true})
+    const res = await axios.delete(`${baseUrl}/api/users/favorites/${pet._id}`, {withCredentials: true})
     setCurrentUser(res.data)
   }catch(err){
       console.log(err)
@@ -135,7 +139,7 @@ try{
   const handleAddToAdopted = async (pet) =>{
     const adoptedPet = {petId: pet._id}
     try{
-      const res = await axios.post(`${baseUrl}/api/users/${currentUser?._id}/adopted`, adoptedPet, {withCredentials: true})
+      const res = await axios.post(`${baseUrl}/api/users/adopted`, adoptedPet, {withCredentials: true})
       setCurrentUser(res.data)
 
     }catch(err){
@@ -145,7 +149,7 @@ try{
 
   const returnPet = async (petId) =>{
     try{
-      const res = await axios.delete(`${baseUrl}/api/users/${currentUser._id}/adopted/${petId}`, {withCredentials: true})
+      const res = await axios.delete(`${baseUrl}/api/users/adopted/${petId}`, {withCredentials: true})
       setCurrentUser(res.data)
     }catch(err){
       console.log(err)
@@ -154,17 +158,48 @@ try{
 
   const fosterPet = async (petId) =>{
     try{
-      const res = await axios.get(`${baseUrl}/api/users/${currentUser._id}/foster/${petId}`, {withCredentials: true})
+      const res = await axios.get(`${baseUrl}/api/users/foster/${petId}`, {withCredentials: true})
       setCurrentUser(res.data)
     }catch(err){
       console.log(err)
     }
   }
 
+  const handleSetAdmin = async (id)=>{
+    try{
+    const res = await axios.get(`${baseUrl}/api/users/admin/${id}`, {withCredentials: true}) 
+    updateUsersList(res.data)
+  } 
+    catch(err){
+      console.log(err)
+    }
+  }
+
+const handleRemoveAdmin = async (id)=>{
+  try{
+  const res = await axios.get(`${baseUrl}/api/users/remove/${id}`, {withCredentials: true})
+  updateUsersList(res.data)
+}
+  catch(err){
+    console.log(err)
+  }
+}
+
+
+  const updateUsersList = (updated)=>{
+    const updatedUsers=allUsers.map(user=>{
+      if(updated._id===user._id){
+        setEditedUser(updated)
+        return updated
+      } else return user
+    })
+    setAllUsers(updatedUsers)
+  }
+
 
   return (
     <authConext.Provider
-      value={{openPrivatePage, handleOpen, handleClose, open, handleLoginPage, handleSignUp, errorSignup, currentUser, errorLogin, handleLogout, handleUpdateProfile, updateError, allUsers, editedUser, handleAddtoFavorites, handleAddToAdopted, handleRemoveFromFavorites, returnPet, fosterPet, hello}}
+      value={{openPrivatePage, handleOpen, handleClose, open, handleLoginPage, handleSignUp, errorSignup, currentUser, errorLogin, handleLogout, handleUpdateProfile, updateError, allUsers, editedUser, handleAddtoFavorites, handleAddToAdopted, handleRemoveFromFavorites, returnPet, fosterPet, hello, getAllUsers, verifyUser, handleSetAdmin, handleRemoveAdmin}}
     >
       {children}
     </authConext.Provider>

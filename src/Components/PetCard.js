@@ -217,7 +217,7 @@ export default function PetCard({ pet, modal, admin }) {
             e.stopPropagation();
             handleClosePetModal();
             handleAddToAdopted(pet);
-            handleUpdatePetToAdopted(pet._id, currentUser?._id);
+            handleUpdatePetToAdopted(pet._id);
           }}
           color="success"
           variant="contained"

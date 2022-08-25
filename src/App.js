@@ -10,7 +10,7 @@ import PrivateRoute from "./Routes/PrivateRoute";
 import Search from "./Components/Search";
 import HomePage from "./Routes/HomePage";
 import PetContext from "./Contexts/petContext";
-import ProfileSetings from "./Routes/ProfileSetings";
+import Profile from "./Routes/Profile";
 import MyPets from "./Routes/MyPets";
 import PetModal from "./Components/PetModal";
 import Admin from "./Routes/Admin";
@@ -29,7 +29,7 @@ function App() {
           <Routes>
             <Route path="/" element={<HomePage/>}></Route>
             <Route path="/search" element={<PrivateRoute><Search/></PrivateRoute>}></Route>
-            <Route path="/profile/:uid" element={ <PrivateRoute><ProfileSetings/></PrivateRoute>}>
+            <Route path="/profile/:uid" element={ <PrivateRoute><Profile/></PrivateRoute>}>
               </Route>
             <Route path="/mypets" element={<PrivateRoute><MyPets/></PrivateRoute>}></Route>
             <Route path="/admin" element={<PrivateRoute><Admin/></PrivateRoute>}></Route>

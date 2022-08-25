@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import AdminListItem from "../Components/AdminListItem";
 import { useAuthContext } from '../Contexts/authContexts';
 import { Switch } from "@mui/material";
@@ -9,9 +9,14 @@ import { usePetContext } from "../Contexts/petContext";
 import { nanoid } from "nanoid";
 
 export default function Admin() {
-    const {allUsers} = useAuthContext();
+    const {allUsers, getAllUsers} = useAuthContext();
     const {pets} = usePetContext()
     const [page, setPage] = useState(true)
+
+useEffect(()=>{
+  getAllUsers()
+},[])
+
   return (
     <div className="d-flex flex-column align-items-center mt-4">
       <div className="fs-5">

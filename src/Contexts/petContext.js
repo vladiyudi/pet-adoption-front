@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { createContext, useContext, useState } from "react";
 import axios from "axios";
-import { baseUrl } from "./authContexts";
+import { baseUrl, useAuthContext } from "./authContexts";
 import { useNavigate } from "react-router-dom";
 
 const petContext = createContext();
@@ -10,6 +10,8 @@ export function usePetContext() {
 }
 
 export default function PetContext({ children }) {
+  // const context = useAuthContext();
+  // console.log(context);
   const [pets, setPets] = useState([]);
   const [openPetModal, setOpenPetModal] = useState(false);
   const [pet, setPet] = useState("");
@@ -132,10 +134,10 @@ export default function PetContext({ children }) {
     setPets(updatedList);
   };
 
-  const handleUpdatePetToAdopted = async (petId, uid) => {
+  const handleUpdatePetToAdopted = async (petId) => {
     try {
       const updatedPet = await axios.get(
-        `${baseUrl}/api/pets/adopt/${uid}/${petId}`, {withCredentials: true}
+        `${baseUrl}/api/pets/adopt/${petId}`, {withCredentials: true}
       );
       updatePetStatus(updatedPet.data);
     } catch (err) {
@@ -149,8 +151,8 @@ export default function PetContext({ children }) {
     );
     updatePetStatus(updatedPet.data);
   };
-  const handleUpdatePetToFostered = async (petId, userId) => {
-    const updatedPet = await axios.get(`${baseUrl}/api/pets/${petId}/foster/${userId}`, {withCredentials: true}
+  const handleUpdatePetToFostered = async (petId) => {
+    const updatedPet = await axios.get(`${baseUrl}/api/pets/${petId}/foster`, {withCredentials: true}
     );
     updatePetStatus(updatedPet.data);
   };
