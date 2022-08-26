@@ -30,7 +30,6 @@ export default function MyPets() {
     return pet?._id===match[0]
   })
 
-
   return (
 <div className='d-flex justify-content-center mt-3 flex-column align-items-center'>
 <div>
@@ -57,14 +56,14 @@ onClick={()=>{
 }}
 >Fostered</Button>
 </div>
-<div className={interested?'w-75 d-flex flex-wrap justify-content-center mt-4':'d-none'}>
+<div className={interested?'w-100 d-flex flex-wrap justify-content-center mt-4':'d-none'}>
 {favorite?.map(pet => <PetCard key={nanoid()} pet={pet} admin={false}/>)}
 </div>
-<div className={adopted?'w-75 d-flex flex-wrap justify-content-center mt-4':'d-none'}>
+<div className={adopted?'w-100 d-flex flex-wrap justify-content-center mt-4':'d-none'}>
  
 {adoptedList?.map(pet => <PetCard key={nanoid()} pet={pet} admin={false}/>)}
 </div>
-<div className={fostered?'w-75 d-flex flex-wrap justify-content-center mt-4':'d-none'}>
+<div className={fostered?'w-100 d-flex flex-wrap justify-content-center mt-4':'d-none'}>
 {fosteredList?.map(pet => <PetCard key={nanoid()} pet={pet} admin={false}/>)}
 </div>
     </div>

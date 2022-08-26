@@ -51,7 +51,7 @@ export default function PetCard({ pet, modal, admin }) {
 
   return (
     <div
-      className="border petCard me-2 mb-2 pb-4 pt-1 pe-1"
+      className={"border petCard me-2 mb-2 pb-4 pt-1 pe-1"}
       onClick={() => {
         !modal && handleOpenPetModal(pet, admin);
       }}

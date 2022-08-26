@@ -9,75 +9,84 @@ import { InputLabel } from "@mui/material";
 import { yellow } from "@mui/material/colors";
 import FormControl from "@mui/material/FormControl";
 import PetsIcon from "@mui/icons-material/Pets";
-import Form from 'react-bootstrap/Form';
+import Form from "react-bootstrap/Form";
 
-export default function AddAndDysplayPet({ePet}) {
-
-  const [petName, setPetName] = useState(ePet?.name?ePet?.name:"");
-  const [petType, setType] = useState(ePet?.type?ePet?.type:"");
-  const [breed, setBreed] = useState(ePet?.breed?ePet?.breed:"");
-  const [weight, setWeight] = useState(ePet?.weight?ePet?.weight:"");
-  const [height, setHeight] = useState(ePet?.height?ePet?.height:"");
-  const [color, setColor] = useState(ePet?.color?ePet?.color:"");
-  const [hypoallergenic, setHypoallergenic] = useState(ePet?.hypoallergenic?ePet?.hypoallergenic:"");
-  const [bio, setBio] = useState(ePet?.bio?ePet?.bio:"");
-  const [dietary, setDietary] = useState(ePet?.dietary?ePet?.dietary:"");
+export default function AddAndDysplayPet({ ePet, isMobile }) {
+  const [petName, setPetName] = useState(ePet?.name ? ePet?.name : "");
+  const [petType, setType] = useState(ePet?.type ? ePet?.type : "");
+  const [breed, setBreed] = useState(ePet?.breed ? ePet?.breed : "");
+  const [weight, setWeight] = useState(ePet?.weight ? ePet?.weight : "");
+  const [height, setHeight] = useState(ePet?.height ? ePet?.height : "");
+  const [color, setColor] = useState(ePet?.color ? ePet?.color : "");
+  const [hypoallergenic, setHypoallergenic] = useState(
+    ePet?.hypoallergenic ? ePet?.hypoallergenic : ""
+  );
+  const [bio, setBio] = useState(ePet?.bio ? ePet?.bio : "");
+  const [dietary, setDietary] = useState(ePet?.dietary ? ePet?.dietary : "");
   const { handleAddNewPet, handleEditPet } = usePetContext();
-  const [picture, setPicture] = useState(null)
-  const [preview, setPreview] = useState(null)
+  const [picture, setPicture] = useState(null);
+  const [preview, setPreview] = useState(null);
 
-  const handlePictureUpload = (e)=>{
-    setPicture(e.target.files[0])
-  }
+  const handlePictureUpload = (e) => {
+    setPicture(e.target.files[0]);
+  };
 
   useEffect(() => {
-    if (!picture) {setPreview(null) 
-      return}
-    const obgUrl = URL.createObjectURL(picture)
-    setPreview(obgUrl)
-    return () => {
-      URL.revokeObjectURL(obgUrl)
+    if (!picture) {
+      setPreview(null);
+      return;
     }
-  } , [picture])
-  
+    const obgUrl = URL.createObjectURL(picture);
+    setPreview(obgUrl);
+    return () => {
+      URL.revokeObjectURL(obgUrl);
+    };
+  }, [picture]);
+
   return (
     <div className="w-100 d-flex justify-content-center">
       <div className="d-flex flex-column align-items-center rounded w-75 rounded">
-        <span className="fs-3 text-success"><b>{ePet?'Edit a pet':'Add a new pet'}</b></span>
+        <span className="fs-3 text-success">
+          <b>{ePet ? "Edit a pet" : "Add a new pet"}</b>
+        </span>
+
         <FormControl sx={{ m: 1, minWidth: 120 }}>
-        <div className="mb-1 d-flex align-items-center"><Avatar
-         src={preview?preview: ePet?.picture || 'undefined'}
-         sx={{ width: 120, height: 120 }}
-        ></Avatar>
-        <div className="winp ms-3">
-        <Form.Label>Upload Picture</Form.Label>
-        <Form.Control type="file" onChange={
-          handlePictureUpload}/>
-        </div>
-        </div>
-          <div className="d-flex flex-column">   
-          <InputLabel color="success" id="demo-simple-select-helper-label"
-          className="inputLable">
-                Type
-              </InputLabel>
-              <Select
+          <div className="mb-1 d-flex align-items-center">
+            <Avatar
+              src={preview ? preview : ePet?.picture || "undefined"}
+              sx={{ width: 120, height: 120 }}
+            ></Avatar>
+            <div className="winp ms-3">
+              <Form.Label>Upload Picture</Form.Label>
+              <Form.Control type="file" onChange={handlePictureUpload} />
+            </div>
+          </div>
+          <div className="d-flex flex-column">
+            <InputLabel
+              color="success"
+              id="demo-simple-select-helper-label"
+              className="inputLable"
+            >
+              Type
+            </InputLabel>
+            <Select
               className="mt-1 me-1"
-                color="success"
-                labelId="demo-simple-select-helper-label"
-                id="demo-simple-select-helper"
-                value={petType}
-                // inputProps={{width: "100%"}}
-                label="Type"
-                onChange={(e) => {
-                  setType(e.target.value);
-                }}
-              >
-                <MenuItem value={"Dog"}>Dog</MenuItem>
-                <MenuItem value={"Cat"}>Cat</MenuItem>
-              </Select>
+              color="success"
+              labelId="demo-simple-select-helper-label"
+              id="demo-simple-select-helper"
+              value={petType}
+              // inputProps={{width: "100%"}}
+              label="Type"
+              onChange={(e) => {
+                setType(e.target.value);
+              }}
+            >
+              <MenuItem value={"Dog"}>Dog</MenuItem>
+              <MenuItem value={"Cat"}>Cat</MenuItem>
+            </Select>
             <div>
               <TextField
-                className="mt-1 me-1"
+                className={isMobile ? "mt-1 me-1 w-100" : "mt-1 me-1"}
                 id="outlined-basic"
                 label="New pet's name"
                 variant="outlined"
@@ -88,7 +97,7 @@ export default function AddAndDysplayPet({ePet}) {
                 color="success"
               />
               <TextField
-                className="mt-1 me-1"
+                className={isMobile ? "mt-1 me-1 w-100" : "mt-1 me-1"}
                 id="outlined-basic"
                 label="Breed"
                 variant="outlined"
@@ -100,52 +109,52 @@ export default function AddAndDysplayPet({ePet}) {
               />
             </div>
             <div>
-            <TextField
-              className="mt-1 me-1"
-              id="outlined-basic"
-              label="Height"
-              variant="outlined"
-              value={height}
-              onChange={(e) => {
-                setHeight(e.target.value);
-              }}
-              color="success"
-            />
-            <TextField
-              className="mt-1 me-1"
-              id="outlined-basic"
-              label="Weight"
-              variant="outlined"
-              value={weight}
-              onChange={(e) => {
-                setWeight(e.target.value);
-              }}
-              color="success"
-            />
-               </div>
-               <div>
-            <TextField
-              className="mt-1 me-1"
-              id="outlined-basic"
-              label="Color"
-              variant="outlined"
-              value={color}
-              onChange={(e) => {
-                setColor(e.target.value);
-              }}
-              color="success"
-            />
-            <TextField
-              className="mt-1 me-1"
-              id="outlined-basic"
-              label="Hypoallergenic"
-              variant="outlined"
-              value={hypoallergenic}
-              onChange={(e) => {
-                setHypoallergenic(e.target.value);
-              }}
-              color="success"
-            />
+              <TextField
+                className={isMobile ? "mt-1 me-1 w-100" : "mt-1 me-1"}
+                id="outlined-basic"
+                label="Height"
+                variant="outlined"
+                value={height}
+                onChange={(e) => {
+                  setHeight(e.target.value);
+                }}
+                color="success"
+              />
+              <TextField
+                className={isMobile ? "mt-1 me-1 w-100" : "mt-1 me-1"}
+                id="outlined-basic"
+                label="Weight"
+                variant="outlined"
+                value={weight}
+                onChange={(e) => {
+                  setWeight(e.target.value);
+                }}
+                color="success"
+              />
+            </div>
+            <div>
+              <TextField
+                className={isMobile ? "mt-1 me-1 w-100" : "mt-1 me-1"}
+                id="outlined-basic"
+                label="Color"
+                variant="outlined"
+                value={color}
+                onChange={(e) => {
+                  setColor(e.target.value);
+                }}
+                color="success"
+              />
+              <TextField
+                className={isMobile ? "mt-1 me-1 w-100" : "mt-1 me-1"}
+                id="outlined-basic"
+                label="Hypoallergenic"
+                variant="outlined"
+                value={hypoallergenic}
+                onChange={(e) => {
+                  setHypoallergenic(e.target.value);
+                }}
+                color="success"
+              />
             </div>
             <TextField
               className="mt-1 me-1"
@@ -170,43 +179,46 @@ export default function AddAndDysplayPet({ePet}) {
               color="success"
             />
             <Button
-                className="mt-1 me-1"
+              className="mt-1 me-1"
               color="success"
               variant="contained"
               onClick={() => {
-               !ePet && handleAddNewPet(
-                  petName,
-                  petType,
-                  breed,
-                  weight,
-                  height,
-                  color,
-                  hypoallergenic,
-                  bio,
-                  dietary, 
-                  picture,
-                );
-                ePet && handleEditPet(
-                  petName,
-                  petType,
-                  breed,
-                  weight,
-                  height,
-                  color,
-                  hypoallergenic,
-                  bio,
-                  dietary,
-                  picture,
-                )
-                setBio('');
+                !ePet &&
+                  handleAddNewPet(
+                    petName,
+                    petType,
+                    breed,
+                    weight,
+                    height,
+                    color,
+                    hypoallergenic,
+                    bio,
+                    dietary,
+                    picture
+                  );
+                ePet &&
+                  handleEditPet(
+                    petName,
+                    petType,
+                    breed,
+                    weight,
+                    height,
+                    color,
+                    hypoallergenic,
+                    bio,
+                    dietary,
+                    picture
+                  );
+                setBio("");
                 setBreed("");
                 setColor("");
                 setDietary("");
                 setHeight("");
                 setHypoallergenic("");
-                setPetName('');
+                setPetName("");
                 setType("");
                 setWeight("");
+                setPreview("");
               }}
             >
               <PetsIcon
@@ -215,10 +227,11 @@ export default function AddAndDysplayPet({ePet}) {
                   color: yellow[50],
                 }}
               />
-              <span>{ePet? 'Save Pet':'Add Pet'}</span>
+              <span>{ePet ? "Save Pet" : "Add Pet"}</span>
             </Button>
           </div>
         </FormControl>
+        
       </div>
     </div>
   );

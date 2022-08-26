@@ -33,7 +33,7 @@ function App() {
               </Route>
             <Route path="/mypets" element={<PrivateRoute><MyPets/></PrivateRoute>}></Route>
             <Route path="/admin" element={<PrivateRoute><Admin/></PrivateRoute>}></Route>
-            <Route path="/admin/:uid/:userPage" element={<PrivateRoute><EditUserPets/></PrivateRoute>}></Route>
+            <Route path="/:uid" element={<PrivateRoute><EditUserPets/></PrivateRoute>}></Route>
             <Route path="/admin/edit/:petId" element={<PrivateRoute><EditPet/></PrivateRoute>}></Route>
           </Routes>
           </PetContext>

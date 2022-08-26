@@ -7,15 +7,20 @@ import AddAndDysplayPet from "../Components/AddAndDysplayPet";
 import PetCard from "../Components/PetCard";
 import { usePetContext } from "../Contexts/petContext";
 import { nanoid } from "nanoid";
+import { useMediaQuery } from "react-responsive";
 
 export default function Admin() {
     const {allUsers, getAllUsers} = useAuthContext();
     const {pets} = usePetContext()
     const [page, setPage] = useState(true)
 
+    const isMobile = useMediaQuery({ maxWidth: 700 });
+
 useEffect(()=>{
   getAllUsers()
 },[])
+
+
 
   return (
     <div className="d-flex flex-column align-items-center mt-4">
@@ -27,8 +32,8 @@ useEffect(()=>{
       <span>Pets</span>
       </div>
       <div className={!page ?'d-none':'mt-4 w-100 d-flex flex-column align-items-center'}>
-    <AddAndDysplayPet/> 
-    <div>
+    <AddAndDysplayPet isMobile={isMobile}/> 
+    <div className="d-flex flex-wrap justify-content-center">
           {pets.map(pet=><PetCard key={nanoid()} pet={pet} modal={false} admin={true} />)}
         </div>
     </div>

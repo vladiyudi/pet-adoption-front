@@ -119,7 +119,7 @@ export default function Search() {
           onChange={handleName}
           value={name}
         />
-        <div>
+        <div className="d-flex justify-content-between">
           <TextField
             value={minHeight}
             color={minHeight <= 10 || !minHeight ? "success" : "warning"}
@@ -132,7 +132,7 @@ export default function Search() {
             type="number"
             InputProps={{ inputProps: { min: 0, max: 10 } }}
             variant="standard"
-            className="me-3"
+            className="me-3 w-50"
             onChange={handleMinHeight}
           />
           <TextField
@@ -148,9 +148,10 @@ export default function Search() {
             variant="standard"
             InputProps={{ inputProps: { min: 0, max: 100 } }}
             onChange={handleMaxnHeight}
+            className={'w-50'}
           />
         </div>
-        <div>
+        <div className="d-flex">
           <TextField
             value={minWeight}
             color={minWeight <= 10 || !minWeight ? "success" : "warning"}
@@ -162,7 +163,7 @@ export default function Search() {
             }
             type="number"
             variant="standard"
-            className="me-3"
+            className="me-3 w-50"
             onChange={handleMinWeight}
             InputProps={{ inputProps: { min: 0, max: 10 } }}
           />
@@ -179,18 +180,13 @@ export default function Search() {
             variant="standard"
             onChange={handleMaxWeight}
             InputProps={{ inputProps: { min: 0, max: 100 } }}
+            className='w-50'
           />
         </div>
         </div>
         <Button className="mt-4" color="success" variant="outlined" 
         onClick={()=>{handleSearchForm(minHeight, maxHeight, minWeight, maxWeight, type, status, name)
-        // setMaxHeight('')
-        // setMaxWeight('')
-        // setMinHeight('')
-        // setMinWeight('')
-        // setStatus('')
-        // setType('')
-        // setName('')
+
         }}>
           <PetsIcon className="mb-1 me-2"
       sx={{
