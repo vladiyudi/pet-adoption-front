@@ -17,6 +17,7 @@ export default function PetContext({ children }) {
   const [pet, setPet] = useState("");
   const [addAdmin, setAddAdmin] = useState(false);
   const [ePet, setEPet] = useState({});
+  const [change, setChange] = useState(false)
   const navigate = useNavigate();
 
   const handleOpenPetModal = (pet, admin) => {
@@ -140,6 +141,7 @@ export default function PetContext({ children }) {
         `${baseUrl}/api/pets/adopt/${petId}`, {withCredentials: true}
       );
       updatePetStatus(updatedPet.data);
+      setChange(!change)
     } catch (err) {
       console.log(err);
     }
@@ -150,11 +152,14 @@ export default function PetContext({ children }) {
       `${baseUrl}/api/pets/adopted/${petId}`, {withCredentials: true}
     );
     updatePetStatus(updatedPet.data);
+    setChange(!change)
   };
+
   const handleUpdatePetToFostered = async (petId) => {
     const updatedPet = await axios.get(`${baseUrl}/api/pets/${petId}/foster`, {withCredentials: true}
     );
     updatePetStatus(updatedPet.data);
+    setChange(!change)
   };
 
   const editPet = (pet) => {
@@ -219,6 +224,7 @@ export default function PetContext({ children }) {
         editPet,
         ePet,
         handleEditPet,
+        change,
       }}
     >
       {children}

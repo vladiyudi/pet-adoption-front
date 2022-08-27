@@ -16,6 +16,7 @@ import PetModal from "./Components/PetModal";
 import Admin from "./Routes/Admin";
 import EditUserPets from "./Components/EditUserPets";
 import EditPet from "./Routes/EditPet";
+import PetPage from "./Routes/PetPage";
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
             <Route path="/admin" element={<PrivateRoute><Admin/></PrivateRoute>}></Route>
             <Route path="/:uid" element={<PrivateRoute><EditUserPets/></PrivateRoute>}></Route>
             <Route path="/admin/edit/:petId" element={<PrivateRoute><EditPet/></PrivateRoute>}></Route>
+            <Route path="/pet/:id" element={<PrivateRoute><PetPage/></PrivateRoute>}></Route>
           </Routes>
           </PetContext>
         </AuthContexts>

@@ -9,6 +9,7 @@ import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
 import Favorite from "@mui/icons-material/Favorite";
 import { useAuthContext } from "../Contexts/authContexts";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
@@ -21,6 +22,7 @@ export default function PetCard({ pet, modal, admin }) {
     handleUpdatePetToAvailable,
     handleUpdatePetToFostered,
     editPet,
+    handleOpenPetPage,
   } = usePetContext();
   const {
     handleAddtoFavorites,
@@ -30,6 +32,8 @@ export default function PetCard({ pet, modal, admin }) {
     fosterPet,
   } = useAuthContext();
   const { currentUser } = useAuthContext();
+
+  const navigate = useNavigate()
 
   let diet = "";
   pet.dietary?.forEach((element, i) => {
@@ -57,7 +61,9 @@ export default function PetCard({ pet, modal, admin }) {
       }}
     >
       <div className="d-flex w-100">
-        <div>
+        <div onClick={(e)=>{
+           e.stopPropagation();
+          navigate(`/pet/${pet._id}`)}}>
           <Avatar
             className={`mt-3 ms-3 petAvatar-${aStatus}`}
             alt="Remy Sharp"

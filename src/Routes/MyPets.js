@@ -5,6 +5,7 @@ import { useAuthContext } from '../Contexts/authContexts'
 import { useState } from 'react'
 import { Button } from '@mui/material'
 import { nanoid } from 'nanoid'
+import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
 
 
 export default function MyPets() {
@@ -30,6 +31,7 @@ export default function MyPets() {
     return pet?._id===match[0]
   })
 
+
   return (
 <div className='d-flex justify-content-center mt-3 flex-column align-items-center'>
 <div>
@@ -39,14 +41,10 @@ onClick={()=>{
   setFostered(false)
   setInerested(true)
 }}
->Interested</Button>
-<Button className='mb-2' color={'success'}
-onClick={()=>{
-  setAdopted(true)
-  setFostered(false)
-  setInerested(false)
-}}
->Adopted</Button>
+>
+  <CheckRoundedIcon className={interested?'undefined':'d-none'}/>
+  <span className='ms-1'>Interested</span>
+  </Button>
 <Button 
 className='mb-2' color={'success'}
 onClick={()=>{
@@ -54,17 +52,32 @@ onClick={()=>{
   setFostered(true)
   setInerested(false)
 }}
->Fostered</Button>
+>
+<CheckRoundedIcon className={fostered?'undefined':'d-none'}/>
+<span className='ms-1'> Fostered</span> 
+  </Button>
+  <Button className='mb-2' color={'success'}
+onClick={()=>{
+  setAdopted(true)
+  setFostered(false)
+  setInerested(false)
+}}
+>
+<CheckRoundedIcon className={adopted?'undefined':'d-none'}/>
+  <span className='ms-1'>  Adopted</span>
+  </Button>
 </div>
 <div className={interested?'w-100 d-flex flex-wrap justify-content-center mt-4':'d-none'}>
+<span className={!favorite?.length?'undefined':'d-none'}>Currently you're not interested in any pets</span>
 {favorite?.map(pet => <PetCard key={nanoid()} pet={pet} admin={false}/>)}
 </div>
-<div className={adopted?'w-100 d-flex flex-wrap justify-content-center mt-4':'d-none'}>
- 
-{adoptedList?.map(pet => <PetCard key={nanoid()} pet={pet} admin={false}/>)}
-</div>
 <div className={fostered?'w-100 d-flex flex-wrap justify-content-center mt-4':'d-none'}>
+<span className={!fosteredList?.length?'undefined':'d-none'}>Currently you don't foster any pets</span>
 {fosteredList?.map(pet => <PetCard key={nanoid()} pet={pet} admin={false}/>)}
+</div>
+<div className={adopted?'w-100 d-flex flex-wrap justify-content-center mt-4':'d-none'}>
+<span className={!adoptedList?.length?'undefined':'d-none'}>Currently you don't adopt any pets</span>
+{adoptedList?.map(pet => <PetCard key={nanoid()} pet={pet} admin={false}/>)}
 </div>
     </div>
   )

@@ -7,25 +7,28 @@ import { usePetContext } from "../Contexts/petContext";
 import ProfileSetings from "./ProfileSetings";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
-import {baseUrl} from '../Contexts/authContexts'
+import { baseUrl } from "../Contexts/authContexts";
 
 export default function EditUserPets() {
-  // const { editedUser } = useAuthContext();
   const { pets } = usePetContext();
   const [editedUser, setEditedUser] = useState({});
-  const location = useLocation()
-  const loc = location.pathname.split('/')
+  const location = useLocation();
+  const loc = location.pathname.split("/");
 
-  const findEditedUser = async ()=>{
-    try{
-    const res = await axios.get(`${baseUrl}/api/users/find/${loc[1]}`, {withCredentials:true})
-    setEditedUser (res.data)}
-    catch(err){
-      console.log(err)
+  const findEditedUser = async () => {
+    try {
+      const res = await axios.get(`${baseUrl}/api/users/find/${loc[1]}`, {
+        withCredentials: true,
+      });
+      setEditedUser(res.data);
+    } catch (err) {
+      console.log(err);
     }
-  }
+  };
 
-useEffect(()=>{findEditedUser()},[])
+  useEffect(() => {
+    findEditedUser();
+  }, []);
 
   const fostered = pets.filter((pet) =>
     editedUser.fosteredPets?.includes(pet._id)

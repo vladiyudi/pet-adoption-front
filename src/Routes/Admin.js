@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import AdminListItem from "../Components/AdminListItem";
 import { useAuthContext } from '../Contexts/authContexts';
-import { Switch } from "@mui/material";
+import { Button, Switch } from "@mui/material";
 import { useState } from "react";
 import AddAndDysplayPet from "../Components/AddAndDysplayPet";
 import PetCard from "../Components/PetCard";
@@ -19,17 +19,16 @@ export default function Admin() {
 useEffect(()=>{
   getAllUsers()
 },[])
-
-
-
   return (
     <div className="d-flex flex-column align-items-center mt-4">
       <div className="fs-5">
-      <span>Users</span>
+      <span>
+        <Button color='success'>Users</Button>
+        </span>
       <Switch defaultChecked color="success" 
       onChange={()=>{setPage(!page)}}
       />
-      <span>Pets</span>
+      <span> <Button color='success'>Pets</Button></span>
       </div>
       <div className={!page ?'d-none':'mt-4 w-100 d-flex flex-column align-items-center'}>
     <AddAndDysplayPet isMobile={isMobile}/> 

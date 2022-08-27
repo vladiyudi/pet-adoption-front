@@ -25,7 +25,7 @@ const style = {
 };
 
 export default function BasicModal() {
-  const { handleClose, open, handleLoginPage, handleSignUp, errorSignup, errorLogin} =
+  const { handleClose, open, handleLoginPage, handleSignUp, errorSignup, errorLogin, hello} =
     useAuthContext();
   const [login, senLogin] = useState(true);
   const [loginEmail, setLoginEmail] = useState("");
@@ -139,7 +139,7 @@ export default function BasicModal() {
               </Button>
             </div>
           </div>
-          <div className={login ? "d-none" : "undefined"}>
+          <div className={login  ? "d-none" : "undefined"}>
           <div className="d-flex align-items-center">
               <FaceIcon className="me-3 mt-2" />
               <TextField
