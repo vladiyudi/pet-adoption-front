@@ -8,12 +8,14 @@ import PetCard from "../Components/PetCard";
 import { usePetContext } from "../Contexts/petContext";
 import { nanoid } from "nanoid";
 import { useMediaQuery } from "react-responsive";
+import AnnouncementIcon from '@mui/icons-material/Announcement';
+import Checkbox from '@mui/material/Checkbox';
+
 
 export default function Admin() {
     const {allUsers, getAllUsers} = useAuthContext();
-    const {pets} = usePetContext()
+    const {pets, openNewsFeed} = usePetContext()
     const [page, setPage] = useState(true)
-
     const isMobile = useMediaQuery({ maxWidth: 700 });
 
 useEffect(()=>{
@@ -21,6 +23,10 @@ useEffect(()=>{
 },[])
   return (
     <div className="d-flex flex-column align-items-center mt-4">
+            <span 
+            className="feed">  
+              <Checkbox onChange={openNewsFeed} icon={<AnnouncementIcon/>} checkedIcon={<AnnouncementIcon/>} />
+              </span>
       <div className="fs-5">
       <span>
         <Button color='success'>Users</Button>
@@ -32,7 +38,7 @@ useEffect(()=>{
       </div>
       <div className={!page ?'d-none':'mt-4 w-100 d-flex flex-column align-items-center'}>
     <AddAndDysplayPet isMobile={isMobile}/> 
-    <div className="d-flex flex-wrap justify-content-center">
+    <div className="d-flex flex-wrap justify-content-center mt-4">
           {pets.map(pet=><PetCard key={nanoid()} pet={pet} modal={false} admin={true} />)}
         </div>
     </div>

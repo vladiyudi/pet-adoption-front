@@ -106,8 +106,8 @@ export default function Search() {
               All
             </MenuItem >
             <MenuItem value={'Available'} >Available</MenuItem>
-            <MenuItem value={'Foster'} >Fostered</MenuItem>
-            <MenuItem value={'Adopt'} >Adopted</MenuItem>
+            <MenuItem value={'Fostered'} >Fostered</MenuItem>
+            <MenuItem value={'Adopted'} >Adopted</MenuItem>
           </Select>
         </FormControl>
         <TextField

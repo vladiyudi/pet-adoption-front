@@ -25,9 +25,8 @@ export default function PetModal() {
         onClose={handleClosePetModal}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
-    
       >
-        <Box sx={style}     className={'d-flex justify-content-center'}>
+        <Box sx={style} className={'d-flex justify-content-center'}>
         <PetCard pet={pet} modal={true} admin={addAdmin}/>
         </Box>
       </Modal>

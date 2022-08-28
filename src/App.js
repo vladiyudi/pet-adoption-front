@@ -17,6 +17,7 @@ import Admin from "./Routes/Admin";
 import EditUserPets from "./Components/EditUserPets";
 import EditPet from "./Routes/EditPet";
 import PetPage from "./Routes/PetPage";
+import NewsFeed from "./Components/NewsFeed";
 
 function App() {
   return (
@@ -24,20 +25,69 @@ function App() {
       <BrowserRouter>
         <AuthContexts>
           <PetContext>
-          <NavBar />
-          <PetModal/>
-          <LoginModal />
-          <Routes>
-            <Route path="/" element={<HomePage/>}></Route>
-            <Route path="/search" element={<PrivateRoute><Search/></PrivateRoute>}></Route>
-            <Route path="/profile/:uid" element={ <PrivateRoute><Profile/></PrivateRoute>}>
-              </Route>
-            <Route path="/mypets" element={<PrivateRoute><MyPets/></PrivateRoute>}></Route>
-            <Route path="/admin" element={<PrivateRoute><Admin/></PrivateRoute>}></Route>
-            <Route path="/:uid" element={<PrivateRoute><EditUserPets/></PrivateRoute>}></Route>
-            <Route path="/admin/edit/:petId" element={<PrivateRoute><EditPet/></PrivateRoute>}></Route>
-            <Route path="/pet/:id" element={<PrivateRoute><PetPage/></PrivateRoute>}></Route>
-          </Routes>
+            <NavBar />
+            <PetModal />
+            <LoginModal />
+            <Routes>
+              <Route path="/" element={<HomePage />}></Route>
+              <Route
+                path="/search"
+                element={
+                  <PrivateRoute>
+                    <Search />
+                  </PrivateRoute>
+                }
+              ></Route>
+              <Route
+                path="/profile/:uid"
+                element={
+                  <PrivateRoute>
+                    <Profile />
+                  </PrivateRoute>
+                }
+              ></Route>
+              <Route
+                path="/mypets"
+                element={
+                  <PrivateRoute>
+                    <MyPets />
+                  </PrivateRoute>
+                }
+              ></Route>
+              <Route
+                path="/admin"
+                element={
+                  <PrivateRoute>
+                    <Admin />
+                  </PrivateRoute>
+                }
+              ></Route>
+              <Route
+                path="/:uid"
+                element={
+                  <PrivateRoute>
+                    <EditUserPets />
+                  </PrivateRoute>
+                }
+              ></Route>
+              <Route
+                path="/admin/edit/:petId"
+                element={
+                  <PrivateRoute>
+                    <EditPet />
+                  </PrivateRoute>
+                }
+              ></Route>
+              <Route
+                path="/pet/:id"
+                element={
+                  <PrivateRoute>
+                    <PetPage />
+                  </PrivateRoute>
+                }
+              ></Route>
+            </Routes>
+            <NewsFeed />
           </PetContext>
         </AuthContexts>
       </BrowserRouter>

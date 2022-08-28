@@ -19,6 +19,12 @@ export default function PetContext({ children }) {
   const [ePet, setEPet] = useState({});
   const [change, setChange] = useState(false)
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false)
+  // const [news, setNews] = useState(false)
+
+  const [openNews, setOpenNews] = useState(false);
+  const handleOpenNews = () => setOpenNews(true);
+  const handleCloseNews = () => setOpenNews(false);
 
   const handleOpenPetModal = (pet, admin) => {
     setOpenPetModal(true);
@@ -74,6 +80,7 @@ export default function PetContext({ children }) {
     dietary,
     picture
   ) => {
+    setLoading(true)
     const diet = dietary.split(",").map((diet) => " " + diet.trim());
     const petData = addToFormData(
       petName,
@@ -89,6 +96,7 @@ export default function PetContext({ children }) {
     );
     try {
       const res = await axios.post(`${baseUrl}/api/pets/add`, petData,{withCredentials: true});
+      setLoading(false)
       getAllPets();
     } catch (err) {
       console.log(err);
@@ -111,7 +119,7 @@ export default function PetContext({ children }) {
     const searchInput = {
       name: name,
       type: type,
-      status: status,
+      adoptionStatus: status,
       minHeight: minHeight,
       maxHeight: maxHeight,
       minWeight: minWeight,
@@ -180,6 +188,7 @@ export default function PetContext({ children }) {
     picture
   ) => {
     try {
+      setLoading(true)
       let diet = "";
       if (typeof dietary === "string") {
         diet = dietary?.split(",")?.map((diet) => " " + diet.trim());
@@ -200,11 +209,18 @@ export default function PetContext({ children }) {
       );
       const res = await axios.put(`${baseUrl}/api/pets/edit/${ePet._id}`, editedPet, {withCredentials: true});
       getAllPets();
+      setLoading(false)
       navigate("/admin");
     } catch (err) {
       console.log(err);
     }
   };
+
+
+const openNewsFeed = ()=>{
+  handleOpenNews()
+}
+
 
   return (
     <petContext.Provider
@@ -225,6 +241,11 @@ export default function PetContext({ children }) {
         ePet,
         handleEditPet,
         change,
+        loading,
+        openNewsFeed,
+        handleOpenNews,
+        openNews,
+        handleCloseNews,
       }}
     >
       {children}

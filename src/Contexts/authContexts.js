@@ -25,6 +25,7 @@ export default function AuthContexts({ children }) {
   // const [editedUser, setEditedUser] = useState({});
   const [hello, setHello] = useState("");
 
+
   useEffect(() => {
     verifyUser();
   }, []);

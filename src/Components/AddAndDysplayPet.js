@@ -10,6 +10,7 @@ import { yellow } from "@mui/material/colors";
 import FormControl from "@mui/material/FormControl";
 import PetsIcon from "@mui/icons-material/Pets";
 import Form from "react-bootstrap/Form";
+import {PropagateLoader} from 'react-spinners'
 
 export default function AddAndDysplayPet({ ePet, isMobile }) {
   const [petName, setPetName] = useState(ePet?.name ? ePet?.name : "");
@@ -23,7 +24,7 @@ export default function AddAndDysplayPet({ ePet, isMobile }) {
   );
   const [bio, setBio] = useState(ePet?.bio ? ePet?.bio : "");
   const [dietary, setDietary] = useState(ePet?.dietary ? ePet?.dietary : "");
-  const { handleAddNewPet, handleEditPet } = usePetContext();
+  const { handleAddNewPet, handleEditPet, loading } = usePetContext();
   const [picture, setPicture] = useState(null);
   const [preview, setPreview] = useState(null);
 
@@ -231,8 +232,11 @@ export default function AddAndDysplayPet({ ePet, isMobile }) {
             </Button>
           </div>
         </FormControl>
-        
+        <div className={loading?'undefined':'d-none'}>
+<PropagateLoader color="#ffb703" />
+</div>
       </div>
+
     </div>
   );
 }

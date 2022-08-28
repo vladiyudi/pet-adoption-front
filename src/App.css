@@ -36,6 +36,11 @@
   text-decoration: none;
 }
 
+.feed {
+  position: fixed;
+  right: 3vw;
+  bottom: 10vh;
+}
 
 .petCard {
   width: 400px;
