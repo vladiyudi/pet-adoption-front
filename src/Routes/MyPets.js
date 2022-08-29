@@ -6,6 +6,7 @@ import { useState } from 'react'
 import { Button } from '@mui/material'
 import { nanoid } from 'nanoid'
 import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
+import ChatButton from '../Components/ChatButton'
 
 
 export default function MyPets() {
@@ -79,6 +80,7 @@ onClick={()=>{
 <span className={!adoptedList?.length?'undefined':'d-none'}>Currently you don't adopt any pets</span>
 {adoptedList?.map(pet => <PetCard key={nanoid()} pet={pet} admin={false}/>)}
 </div>
+<ChatButton/>
     </div>
   )
 }

@@ -36,11 +36,25 @@
   text-decoration: none;
 }
 
-.feed {
+.feed, .chatBut {
+  position: fixed;
+  right: 4vw;
+  bottom: 15vh;
+}
+
+.wrap{
+  overflow: scroll;
+}
+
+.inline-block {
+  width: min-content;
+}
+
+/* .chatBut{
   position: fixed;
   right: 3vw;
   bottom: 10vh;
-}
+} */
 
 .petCard {
   width: 400px;

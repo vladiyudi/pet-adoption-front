@@ -3,6 +3,7 @@ import { createContext, useContext, useState } from "react";
 import axios from "axios";
 import { baseUrl, useAuthContext } from "./authContexts";
 import { useNavigate } from "react-router-dom";
+import { SnippetFolderRounded } from "@mui/icons-material";
 
 const petContext = createContext();
 export function usePetContext() {
@@ -20,10 +21,16 @@ export default function PetContext({ children }) {
   const [change, setChange] = useState(false)
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false)
-  // const [news, setNews] = useState(false)
+  const [chat, setChat] = useState(false)
 
   const [openNews, setOpenNews] = useState(false);
-  const handleOpenNews = () => setOpenNews(true);
+  const handleOpenNews = () => {setOpenNews(true);
+  setChat(false)
+}
+
+const openChat = ()=>{setOpenNews(true)
+  setChat(true)}
+  
   const handleCloseNews = () => setOpenNews(false);
 
   const handleOpenPetModal = (pet, admin) => {
@@ -246,6 +253,8 @@ const openNewsFeed = ()=>{
         handleOpenNews,
         openNews,
         handleCloseNews,
+        chat,
+        openChat,
       }}
     >
       {children}

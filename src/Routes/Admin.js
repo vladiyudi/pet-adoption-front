@@ -10,6 +10,8 @@ import { nanoid } from "nanoid";
 import { useMediaQuery } from "react-responsive";
 import AnnouncementIcon from '@mui/icons-material/Announcement';
 import Checkbox from '@mui/material/Checkbox';
+import { orange } from "@mui/material/colors";
+import AddAlertIcon from "@mui/icons-material/AddAlert";
 
 
 export default function Admin() {
@@ -25,7 +27,13 @@ useEffect(()=>{
     <div className="d-flex flex-column align-items-center mt-4">
             <span 
             className="feed">  
-              <Checkbox onChange={openNewsFeed} icon={<AnnouncementIcon/>} checkedIcon={<AnnouncementIcon/>} />
+              <Checkbox onChange={openNewsFeed} icon={<AddAlertIcon  sx={{
+                    color: orange[800],
+                    fontSize: 40 ,
+                  }}/>} checkedIcon={<AddAlertIcon  sx={{
+                    color: orange[800],
+                    fontSize: 40 ,
+                  }}/>} />
               </span>
       <div className="fs-5">
       <span>

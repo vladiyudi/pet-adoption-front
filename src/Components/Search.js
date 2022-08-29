@@ -12,6 +12,7 @@ import { green } from '@mui/material/colors';
 import { yellow } from '@mui/material/colors';
 import { useAuthContext } from "../Contexts/authContexts";
 import PetsList from "./PetsList";
+import ChatButton from "./ChatButton";
 
 export default function Search() {
   const [minHeight, setMinHeight] = useState("");
@@ -196,7 +197,9 @@ export default function Search() {
        <span> Search</span>
         </Button>
       </div>
+      
       <PetsList/>
+      <ChatButton/>
     </div>
   );
 }
