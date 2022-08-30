@@ -42,6 +42,10 @@
   bottom: 15vh;
 }
 
+.control {
+  width: 48%;
+}
+
 .wrap{
   overflow: scroll;
 }
@@ -49,12 +53,6 @@
 .inline-block {
   width: fit-content;
 }
-
-/* .chatBut{
-  position: fixed;
-  right: 3vw;
-  bottom: 10vh;
-} */
 
 .petCard {
   width: 400px;

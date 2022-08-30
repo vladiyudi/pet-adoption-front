@@ -10,7 +10,7 @@ import { yellow } from "@mui/material/colors";
 import FormControl from "@mui/material/FormControl";
 import PetsIcon from "@mui/icons-material/Pets";
 import Form from "react-bootstrap/Form";
-import {PropagateLoader} from 'react-spinners'
+import { PropagateLoader } from "react-spinners";
 
 export default function AddAndDysplayPet({ ePet, isMobile }) {
   const [petName, setPetName] = useState(ePet?.name ? ePet?.name : "");
@@ -145,17 +145,26 @@ export default function AddAndDysplayPet({ ePet, isMobile }) {
                 }}
                 color="success"
               />
-              <TextField
-                className={isMobile ? "mt-1 me-1 w-100" : "mt-1 me-1"}
-                id="outlined-basic"
-                label="Hypoallergenic"
-                variant="outlined"
-                value={hypoallergenic}
-                onChange={(e) => {
-                  setHypoallergenic(e.target.value);
-                }}
-                color="success"
-              />
+              <FormControl
+                className={isMobile ? "mt-1 me-1 w-100" : "mt-1 me-1 control"}
+              >
+                <InputLabel id="demo-simple-select-label"  color="success">
+                  Hypoallergenic
+                </InputLabel>
+                <Select
+                 color="success"
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={hypoallergenic}
+                  label="Hypoallergenic"
+                  onChange={(e) => {
+                    setHypoallergenic(e.target.value);
+                  }}
+                >
+                  <MenuItem value={true}>True</MenuItem>
+                  <MenuItem value={false}>False</MenuItem>
+                </Select>
+              </FormControl>
             </div>
             <TextField
               className="mt-1 me-1"
@@ -232,11 +241,10 @@ export default function AddAndDysplayPet({ ePet, isMobile }) {
             </Button>
           </div>
         </FormControl>
-        <div className={loading?'undefined':'d-none'}>
-<PropagateLoader color="#ffb703" />
-</div>
+        <div className={loading ? "undefined" : "d-none"}>
+          <PropagateLoader color="#ffb703" />
+        </div>
       </div>
-
     </div>
   );
 }

@@ -5,7 +5,7 @@ import Modal from "@mui/material/Modal";
 import { useAuthContext } from "../Contexts/authContexts";
 import { TextField } from "@mui/material";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import FlutterDashIcon from "@mui/icons-material/FlutterDash";
 import PetsIcon from "@mui/icons-material/Pets";
 import { green } from "@mui/material/colors";
@@ -27,7 +27,7 @@ const style = {
 export default function BasicModal() {
   const { handleClose, open, handleLoginPage, handleSignUp, errorSignup, errorLogin, hello} =
     useAuthContext();
-  const [login, senLogin] = useState(true);
+  const [login, setLogin] = useState(true);
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
   const [signUp, setSignUp] = useState("");
@@ -36,7 +36,7 @@ export default function BasicModal() {
   const [user, setUser] = useState("");
 
   const handleLogin = () => {
-    senLogin(!login);
+    setLogin(!login);
   };
   const handleLoginEmail = (e) => {
     setLoginEmail(e.target.value);
@@ -57,6 +57,11 @@ export default function BasicModal() {
   const handleUser = (e) => {
     setUser(e.target.value);
   }
+
+  useEffect (()=>{
+    if (Object.keys(hello).length) {
+      setLogin(true)}
+  },[hello])
 
   return (
     <div>

@@ -3,8 +3,6 @@ import React from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { usePetContext } from "./petContext";
-import { Cookies } from "react-cookie";
-// import io from "socket.io-client";
 
 export const baseUrl = "http://localhost:8080";
 
@@ -25,14 +23,7 @@ export default function AuthContexts({ children }) {
   const [errorLogin, setErrorLogin] = useState("");
   const [updateError, setUpdateError] = useState("");
   const [allUsers, setAllUsers] = useState([]);
-  // const [editedUser, setEditedUser] = useState({});
   const [hello, setHello] = useState("");
-
-
-  // const socket = io(baseUrl, {
-  //   transports: ["websocket", "polling", "flashsocket"],
-  // });
-
 
   useEffect(() => {
     verifyUser();

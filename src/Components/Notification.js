@@ -14,13 +14,14 @@ function MyApp() {
       console.log("connected");
     });
     nameSpace.on('message', async (data) => {
+      // console.log(data)
       const pet = await getPet(data.documentKey._id)
-      let status = data?.updateDescription?.updatedFields?.adoptionStatus
+      // let status = data?.updateDescription?.updatedFields?.adoptionStatus
       let display = ''
-      if (status === 'Adopted') display = 'error'
-        else if (status === 'Available') display = 'success'
-        if (status === 'Fostered') display = 'warning'
-      handleClickVariant(`${pet.type} ${pet.name} became ${status}`, display)
+      if (pet?.adoptionStatus === 'Adopted') display = 'error'
+        else if (pet?.adoptionStatus === 'Available') display = 'success'
+        if (pet?.adoptionStatus === 'Fostered') display = 'warning'
+      handleClickVariant(`${pet.type} ${pet.name} became ${pet.adoptionStatus}`, display)
     })
   }, []);
 
