@@ -26,7 +26,7 @@ export default function Chat({ chat }) {
       console.log("disconnected");
     });
     socket.on("message", (data) => {
-      console.log(data);
+        // console.log(data);
       setFeed((state)=>[...state, data]);
     });
 
@@ -50,16 +50,18 @@ export default function Chat({ chat }) {
     <div className="d-flex flex-column align items center justify-content-between h-100">
       <div className="wrap mb-3" >
         {feed?.map(message => {
-          return <div key={nanoid()} className={''}>
+          return <div key={nanoid()} className={message.user===currentUser.userName?'undefined':'d-flex justify-content-end me-3'}>
+            <div>
             <div className={'border rounded p-2 mt-1 bg-primary text-white inline-block'}>   {message.message}</div>
-            <div className="text-secondary fs-6">{message.user}</div>
+            <div className="text-secondary fs-6">{message.user===currentUser.userName?'You':message.user}</div>
+            </div>
             </div>;
         })}
         <div ref={messageRef}></div>
       </div>
       <div className="w-100 d-flex align-items-center justify-content-between">
         <TextField fullWidth 
-        label="Enter a message" 
+        label="Contact admin"
         id="fullWidth" 
          value={message}
          onChange={(e) => {
@@ -68,7 +70,7 @@ export default function Chat({ chat }) {
          />
         <Button
           onClick={() => {
-            handleChatMessage();
+            message && handleChatMessage();
             setMessage("");
           }}
         >

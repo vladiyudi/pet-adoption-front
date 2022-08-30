@@ -7,4 +7,8 @@ import { baseUrl } from "../Contexts/authContexts";
     transports: ["websocket", "polling", "flashsocket"],
   });
 
+  const nameSpace = io(`${baseUrl}/serverNews`, {transports: ["websocket", "polling", "flashsocket"]});
+
+  export {nameSpace}
+
   export default socket

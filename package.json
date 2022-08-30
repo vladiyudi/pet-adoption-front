@@ -17,6 +17,7 @@
     "hamburger-react": "^2.5.0",
     "joy-ui": "^0.0.3",
     "nanoid": "^4.0.0",
+    "notistack": "^2.0.5",
     "react": "^18.2.0",
     "react-bootstrap": "^2.5.0",
     "react-cookie": "^4.1.1",

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "@mui/material/Button";
 import { useAuthContext } from "../Contexts/authContexts";
 import PetsIcon from "@mui/icons-material/Pets";
@@ -7,11 +7,11 @@ import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { NavLink } from "react-router-dom";
 import SearchIcon from "@mui/icons-material/Search";
-import { Sling as Hamburger } from "hamburger-react";
 import { useMediaQuery } from "react-responsive";
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 import SwipeableTemporaryDrawer from "./DropDown";
 import DehazeIcon from '@mui/icons-material/Dehaze';
+// import {nameSpace} from "./socket";
 
 export default function NavBar() {
   const isMobile = useMediaQuery({ maxWidth: 700 });
@@ -23,9 +23,7 @@ export default function NavBar() {
     bottom: false,
     right: false,
   });
-
   const anchor = "top"
-
   const toggleDrawer = (anchor, open) => (event) => {
     if (
       event &&
@@ -36,6 +34,9 @@ export default function NavBar() {
     }
     setState({ ...state, [anchor]: open });
   };
+
+
+
 
   return (
     <div className="d-flex justify-content-center flex-column align-items-center">

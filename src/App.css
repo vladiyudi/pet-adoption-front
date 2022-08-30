@@ -47,7 +47,7 @@
 }
 
 .inline-block {
-  width: min-content;
+  width: fit-content;
 }
 
 /* .chatBut{

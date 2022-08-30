@@ -18,6 +18,7 @@ import EditUserPets from "./Components/EditUserPets";
 import EditPet from "./Routes/EditPet";
 import PetPage from "./Routes/PetPage";
 import NewsFeed from "./Components/NewsFeed";
+import IntegrationNotistack from "./Components/Notification";
 
 function App() {
   return (
@@ -88,6 +89,7 @@ function App() {
               ></Route>
             </Routes>
             <NewsFeed />
+            <IntegrationNotistack/>
           </PetContext>
         </AuthContexts>
       </BrowserRouter>
