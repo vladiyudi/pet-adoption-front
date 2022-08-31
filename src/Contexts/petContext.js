@@ -3,7 +3,7 @@ import { createContext, useContext, useState } from "react";
 import axios from "axios";
 import { baseUrl, useAuthContext } from "./authContexts";
 import { useNavigate } from "react-router-dom";
-import { SnippetFolderRounded } from "@mui/icons-material";
+
 
 const petContext = createContext();
 export function usePetContext() {
@@ -22,6 +22,7 @@ export default function PetContext({ children }) {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false)
   const [chat, setChat] = useState(false)
+  const [petError, setPetError] = useState("")
 
   const [openNews, setOpenNews] = useState(false);
   const handleOpenNews = () => {setOpenNews(true);
@@ -107,6 +108,8 @@ const openChat = ()=>{setOpenNews(true)
       getAllPets();
     } catch (err) {
       console.log(err);
+      setPetError('Please fill out all fields correctly')
+      setTimeout(() => {setPetError('')}, 3000);
     }
   };
 
@@ -140,7 +143,7 @@ const openChat = ()=>{setOpenNews(true)
   };
 
   const updatePetStatus = (updatedPet) => {
-    const updatedList = pets.map((pet) => {
+    const updatedList = pets?.map((pet) => {
       if (pet._id === updatedPet._id) {
         return updatedPet;
       } else {
@@ -163,18 +166,24 @@ const openChat = ()=>{setOpenNews(true)
   };
 
   const handleUpdatePetToAvailable = async (petId) => {
+    try{
     const updatedPet = await axios.delete(
       `${baseUrl}/api/pets/adopted/${petId}`, {withCredentials: true}
     );
     updatePetStatus(updatedPet.data);
-    setChange(!change)
+    setChange(!change)} catch (err) {
+      console.log(err);
+    }
   };
 
   const handleUpdatePetToFostered = async (petId) => {
+    try{
     const updatedPet = await axios.get(`${baseUrl}/api/pets/${petId}/foster`, {withCredentials: true}
     );
     updatePetStatus(updatedPet.data);
-    setChange(!change)
+    setChange(!change)} catch (err) {
+      console.log(err);
+    }
   };
 
   const editPet = (pet) => {
@@ -220,6 +229,8 @@ const openChat = ()=>{setOpenNews(true)
       navigate("/admin");
     } catch (err) {
       console.log(err);
+      setPetError('Please fill out all fields correctly')
+      setTimeout(() => {setPetError('')}, 3000);
     }
   };
 
@@ -255,6 +266,7 @@ const openNewsFeed = ()=>{
         handleCloseNews,
         chat,
         openChat,
+        petError,
       }}
     >
       {children}

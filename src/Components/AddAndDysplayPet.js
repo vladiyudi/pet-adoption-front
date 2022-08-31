@@ -20,11 +20,11 @@ export default function AddAndDysplayPet({ ePet, isMobile }) {
   const [height, setHeight] = useState(ePet?.height ? ePet?.height : "");
   const [color, setColor] = useState(ePet?.color ? ePet?.color : "");
   const [hypoallergenic, setHypoallergenic] = useState(
-    ePet?.hypoallergenic ? ePet?.hypoallergenic : ""
+    ePet?.hypoallergenic ? ePet?.hypoallergenic : ''
   );
   const [bio, setBio] = useState(ePet?.bio ? ePet?.bio : "");
   const [dietary, setDietary] = useState(ePet?.dietary ? ePet?.dietary : "");
-  const { handleAddNewPet, handleEditPet, loading } = usePetContext();
+  const { handleAddNewPet, handleEditPet, loading, petError } = usePetContext();
   const [picture, setPicture] = useState(null);
   const [preview, setPreview] = useState(null);
 
@@ -47,6 +47,7 @@ export default function AddAndDysplayPet({ ePet, isMobile }) {
   return (
     <div className="w-100 d-flex justify-content-center">
       <div className="d-flex flex-column align-items-center rounded w-75 rounded">
+      <p className={petError?"text-danger":'d-none'}>Please fill out all fields correctly</p>
         <span className="fs-3 text-success">
           <b>{ePet ? "Edit a pet" : "Add a new pet"}</b>
         </span>
