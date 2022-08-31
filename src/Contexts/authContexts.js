@@ -4,14 +4,13 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { usePetContext } from "./petContext";
 
-export const baseUrl = "http://localhost:8080";
+export const baseUrl = process.env.REACT_APP_URL
+
 
 const authConext = createContext();
 export function useAuthContext() {
   return useContext(authConext);
 }
-
-
 
 export default function AuthContexts({ children }) {
   const navigate = useNavigate();
